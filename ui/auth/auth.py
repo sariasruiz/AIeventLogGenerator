@@ -96,4 +96,12 @@ def login_page():
             else:
                 st.error(message)
     
-    footer() 
+    footer()
+
+def logout():
+    """
+    Cierra la sesión del usuario.
+    """
+    if "auth_manager" in st.session_state:
+        st.session_state.auth_manager.clear_session()
+        st.rerun()

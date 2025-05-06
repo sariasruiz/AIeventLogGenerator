@@ -70,13 +70,16 @@ def app():
     with tab0:
         # Modelo relacional de MIMIC-IV
         st.markdown("## Modelo relacional de MIMIC-IV")
-        st.image("static/images/mimic_iv_model.svg", width=500)
+        base_path = Path(__file__).parent.parent
+        st.image(base_path / "static/images/mimic_iv_model.svg", width=500)
         st.markdown("*Figura 1. Modelo relacional de MIMIC-IV. 2025. Fuente propia.*")
 
         # Información de los módulos cargados en este experimento
         st.markdown("## Conocimiento cargado en este experimento")
         st.markdown("Módulo: ED (Urgencias)")
-        st.image("static/images/mimic_iv_model_ed.svg", width=1000)
+
+        base_path = Path(__file__).parent.parent
+        st.image(base_path / "static/images/mimic_iv_model_ed.svg", width=1000)
         st.markdown("*Figura 2. Modelo relacional de MIMIC-IV: Módulo ED. 2025. Fuente propia.*")
 
     # Módulo ED

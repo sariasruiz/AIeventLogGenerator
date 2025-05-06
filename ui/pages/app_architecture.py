@@ -56,7 +56,8 @@ def app():
     st.markdown("## Arquitectura del Sistema")
 
     # Diagrama de arquitectura
-    st.image("static/images/architecture.svg", width=1250)
+    base_path = Path(__file__).parent.parent
+    st.image(base_path / "static/images/architecture.svg", width=1250)
 
     # Tecnologías utilizadas
     st.markdown("""
