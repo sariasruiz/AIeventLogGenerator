@@ -1,0 +1,27 @@
+{
+  "version": "1.0.0",
+  "last_updated": "2024-04-08",
+  "modules": [
+    {
+      "id": "module_hosp",
+      "description": {
+        "english": "The **Hosp module** provides all data acquired from the hospital wide electronic health record. Information covered includes patient and admission information, laboratory measurements, microbiology, medication administration, and billed diagnoses. The hosp module contains data derived from the hospital wide EHR. These measurements are predominantly recorded during the hospital stay, though some tables include data from outside the hospital as well (e.g. outpatient laboratory tests in labevents). Information includes patient and admission details (`patients`, `admissions`, `transfers`), laboratory measurements (`labevents`, `d_labitems`), microbiology cultures (`microbiologyevents`), provider orders (`poe`, `poe_detail`), medication administration (`emar`, `emar_detail`), medication prescription (`prescriptions`, `pharmacy`), hospital billing information (`diagnoses_icd`, `d_icd_diagnoses`, `procedures_icd`, `d_icd_procedures`, `hcpcsevents`, `d_hcpcs`, `drgcodes`), and hospital service related information (`services`).",
+        "spanish": "El **módulo Hosp** ofrece todos los datos obtenidos del historial clínico electrónico a nivel hospitalario. La información abarca detalles de pacientes y admisiones, mediciones de laboratorio, microbiología, administración de medicamentos y diagnósticos facturados. El módulo hosp contiene datos derivados del EHR hospitalario. Estas mediciones se registran principalmente durante la estancia hospitalaria, aunque algunas tablas incluyen datos externos al hospital (por ejemplo, pruebas de laboratorio ambulatorias en labevents). La información incluye detalles de pacientes y admisiones (`patients`, `admissions`, `transfers`), mediciones de laboratorio (`labevents`, `d_labitems`), cultivos de microbiología (`microbiologyevents`), órdenes médicas (`poe`, `poe_detail`), administración de medicamentos (`emar`, `emar_detail`), prescripciones (`prescriptions`, `pharmacy`), información de facturación hospitalaria (`diagnoses_icd`, `d_icd_diagnoses`, `procedures_icd`, `d_icd_procedures`, `hcpcsevents`, `d_hcpcs`, `drgcodes`) y datos relacionados con servicios hospitalarios (`services`)."
+      }
+    },
+    {
+      "id": "module_ed",
+      "description": {
+        "english": "The **ED module** contains data for emergency department patients collected while they are in the ED. Information includes reason for admission, triage assessment, vital signs, and medicine reconciliation. The `subject_id` and `hadm_id` identifiers allow emergency module to be linked to other corporative database modules.",
+        "spanish": "El **módulo ED** contiene datos de pacientes del servicio de urgencias recopilados mientras se encuentran en el Servicio de Urgencias (ED). La información incluye el motivo de admisión, el nivel de triaje, los signos vitales y la conciliación de medicamentos. Los identificadores `subject_id` y `hadm_id` permiten vincular al módulo de urgencias con otros módulos de la base de datos corporativa."
+      }
+    },
+    {
+      "id": "module_icu",
+      "description": {
+        "english": "The **ICU module** contains information collected from the clinical information system used within the ICU. Documented data includes intravenous administrations, ventilator settings, and other charted items. The ICU module contains data sourced from the clinical information system at the BIDMC: MetaVision (iMDSoft). MetaVision tables were denormalized to create a star schema where the icustays and d_items tables link to a set of data tables all suffixed with 'events'. Data documented in the ICU module includes intravenous and fluid inputs (`inputevents`), ingredients of the aforementioned inputs (`ingredientevents`), patient outputs (`outputevents`), procedures (`procedureevents`), information documented as a date or time (datetimeevents), and other charted information (chartevents). All events tables contain a `stay_id` column allowing identification of the associated ICU patient in `icustays`, and an `itemid` column allowing identification of the concept documented in `d_items`.",
+        "spanish": "El **módulo ICU** contiene información recogida del sistema de información clínica utilizado en la UCI. Los datos documentados incluyen administraciones intravenosas, ajustes del respirador y otros ítems registrados. El módulo ICU proviene del sistema de información clínica del BIDMC: MetaVision (iMDSoft). Las tablas de MetaVision se desnormalizaron para crear un esquema en estrella en el que las tablas icustays y d_items se vinculan a un conjunto de tablas de datos con el sufijo 'events'. Los datos documentados en el módulo ICU incluyen registros de intravenosos y de fluidos (`inputevents`), composición de dichos registros(`ingredientevents`), salidas del paciente (`outputevents`), procedimientos (`procedureevents`), información registrada como fecha u hora (datetimeevents) y otros datos registrados (chartevents). Todas las tablas de eventos contienen una columna `stay_id` que permite identificar al paciente asociado en `icustays`, y una columna `itemid` que permite identificar el concepto documentado en `d_items`."
+      }
+    }
+  ]
+}

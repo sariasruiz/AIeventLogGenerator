@@ -1,0 +1,95 @@
+{
+  "version": "1.0.0",
+  "last_updated": "2024-04-08",
+  "table": {
+    "name": "vitalsign",
+	  "module":"module_ed",
+    "definition": {
+      "english": "Patients admitted to the emergency department have routine vital signs taken every 1-4 hours. These vital signs are stored in the vitalsign table.",
+      "spanish": "A los pacientes ingresados en el servicio de urgencias, se les toman los signos vitales de manera rutinaria cada 1-4 horas. Estos signos vitales se almacenan en la tabla vitalsign."
+    },
+    "purpose": {
+      "english": "Provides nurse documented vital signs.",
+      "spanish": "Proporciona los signos vitales registrados por el personal de enfermería."
+    }
+  },
+  "fields": [
+    {
+      "name": "subject_id",
+      "description": {
+        "english": "`subject_id` is a unique identifier which specifies an individual patient. Any rows associated with a single `subject_id` pertain to the same individual.",
+        "spanish": "`subject_id` es un identificador único que especifica a un paciente individual. Todas las filas asociadas a un único `subject_id` pertenecen al mismo individuo."
+      }
+    },
+    {
+      "name": "stay_id",
+      "description": {
+        "english": "An identifier which uniquely identifies a single emergency department stay for a single patient.",
+        "spanish": "Un identificador que identifica de forma única una única estancia en el servicio de urgencias para un paciente."
+      }
+    },
+    {
+      "name": "charttime",
+      "description": {
+        "english": "The time at which the vital signs were charted.",
+        "spanish": "La hora en la que se registraron los signos vitales."
+      }
+    },
+    {
+      "name": "temperature",
+      "description": {
+        "english": "The patient's temperature in degrees Farenheit. Some temperatures may be incorrectly documented as Celsius.",
+        "spanish": "La temperatura del paciente en grados Fahrenheit. Algunas temperaturas pueden estar incorrectamente documentadas en Celsius."
+      }
+    },
+    {
+      "name": "heartrate",
+      "description": {
+        "english": "The patient's heart rate in beats per minute.",
+        "spanish": "La frecuencia cardíaca del paciente en latidos por minuto."
+      }
+    },
+    {
+      "name": "resprate",
+      "description": {
+        "english": "The patient's respiratory rate in breaths per minute.",
+        "spanish": "La frecuencia respiratoria del paciente en respiraciones por minuto."
+      }
+    },
+    {
+      "name": "o2sat",
+      "description": {
+        "english": "The patient's oxygen saturation measured as a percentage.",
+        "spanish": "La saturación de oxígeno del paciente medida como un porcentaje."
+      }
+    },
+    {
+      "name": "sbp",
+      "description": {
+        "english": "The patient's systolic blood pressure measured in millimetres of mercury (mmHg).",
+        "spanish": "La presión arterial sistólica del paciente medida en milímetros de mercurio (mmHg)."
+      }
+    },
+    {
+      "name": "dbp",
+      "description": {
+        "english": "The patient's diastolic blood pressure measured in millimetres of mercury (mmHg).",
+        "spanish": "La presión arterial diastólica del paciente medida en milímetros de mercurio (mmHg)."
+      }
+    },
+    {
+      "name": "rhythm",
+      "description": {
+        "english": "The patient's heart rhythm.",
+        "spanish": "El ritmo cardíaco del paciente."
+      }
+    },
+    {
+      "name": "pain",
+      "description": {
+        "english": "The patient's self-reported level of pain on a scale from 0-10. The pain is documented as free-text and may contain non-numeric entries.",
+        "spanish": "El nivel de dolor auto reportado por el paciente en una escala de 0 a 10. El dolor se documenta como texto libre y puede contener entradas no numéricas."
+      }
+    }
+  ]
+}

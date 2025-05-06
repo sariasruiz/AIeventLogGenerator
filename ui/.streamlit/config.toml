@@ -1,0 +1,13 @@
+[server]
+port=8501
+address= "localhost"
+fileWatcherType = "none"
+
+[ui]
+hide_top_bar = true
+
+[theme]
+base="dark"
+
+[browser]
+gatherUsageStats = false

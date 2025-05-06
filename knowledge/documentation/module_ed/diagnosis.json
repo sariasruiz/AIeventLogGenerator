@@ -1,0 +1,60 @@
+{
+  "version": "1.0.0",
+  "last_updated": "2024-04-08",
+  "table": {
+    "name": "diagnosis",
+	  "module":"module_ed",
+    "definition": {
+      "english": "The diagnosis table provides billed diagnoses for patients. Diagnoses are determined after discharge from the emergency department.",
+      "spanish": "La tabla diagnosis provee diagnósticos facturados para los pacientes. Los diagnósticos se determinan después del alta del servicio de urgencias."
+    },
+    "purpose": {
+      "english": "Track patient admissions to the emergency department.",
+      "spanish": "Rastrear las admisiones de pacientes en el servicio de urgencias."
+    }
+  },
+  "fields": [
+    {
+      "name": "subject_id",
+      "description": {
+        "english": "subject_id is a unique identifier which specifies an individual patient. Any rows associated with a single subject_id pertain to the same individual.",
+        "spanish": "subject_id es un identificador único que hace referencia a un paciente individual. Todas las filas asociadas a un único subject_id pertenecen al mismo individuo."
+      }
+    },
+    {
+      "name": "stay_id",
+      "description": {
+        "english": "An identifier which uniquely identifies a single emergency department stay for a single patient.",
+        "spanish": "Un identificador que identifica de forma única una única estancia en el servicio de urgencias para un paciente."
+      }
+    },
+    {
+      "name": "seq_num",
+      "description": {
+        "english": "A pseudo-priority for the diagnosis. A seq_num of 1 usually indicates a “primary” diagnosis, but accurately assessing the priority for patients with multiple diagnoses is challenging.",
+        "spanish": "Una pseudo-prioridad para el diagnóstico. Un seq_num de 1 normalmente indica el diagnóstico principal."
+      }
+    },
+    {
+      "name": "icd_code",
+      "description": {
+        "english": "A coded diagnosis using the International Classification of Diseases (ICD) ontology.",
+        "spanish": "Un diagnóstico codificado utilizando la Clasificación Internacional de Enfermedades (ICD)."
+      }
+    },
+    {
+      "name": "icd_version",
+      "description": {
+        "english": "The version of the ICD system used; either 9 indicating ICD-9 or 10 indicating ICD-10. The ontologies for these two systems differ, and therefore the meaning of the icd_code will depend on the icd_version.",
+        "spanish": "La versión del sistema ICD utilizado; puede ser 9, que indica ICD-9, o 10, que indica ICD-10. El significado de icd_code dependerá de icd_version."
+      }
+    },
+    {
+      "name": "icd_title",
+      "description": {
+        "english": "The textual description of the diagnosis.",
+        "spanish": "La descripción textual del diagnóstico."
+      }
+    }
+  ]
+}

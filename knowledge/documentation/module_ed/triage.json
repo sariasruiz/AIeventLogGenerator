@@ -1,0 +1,95 @@
+{
+  "version": "1.0.0",
+  "last_updated": "2024-04-08",
+  "table": {
+  "name": "triage",
+	"module":"module_ed",
+    "definition": {
+      "english": "The triage table contains information about the patient when they were first triaged in the emergency department. Patients are assessed at triage by a single care provider and asked a series of questions to assess their current health status. Their vital signs are measured and a level of acuity is assigned. Based on the level of acuity, the patient either waits in the waiting room for later attention, or is prioritized for immediate care. All fields in triage were originally free-text. For deidentification purposes, the vital sign and pain fields were converted into a numeric value. As a result, a small number of NULL values were introduced for text entries.",
+      "spanish": "La tabla triage contiene información sobre el paciente cuando fue evaluado por primera vez a su llegada al servicio de urgencias. Los pacientes son evaluados en triaje por un único profesional sanitario y se les realizan una serie de preguntas para evaluar su estado de salud actual. Se miden sus signos vitales y se asigna un nivel de prioridad (nivel de triaje). En función del nivel de triaje, el paciente espera en la sala de espera hasta recibir atención sanitaria o se le da atención inmediata. Todos los campos en triage fueron originalmente de texto libre. Por razones de desidentificación, los campos de signos vitales y dolor se convirtieron en valores numéricos, lo que introdujo un pequeño número de valores NULL en las entradas de texto."
+    },
+    "purpose": {
+      "english": "Store information collected on triage to the emergency department. This table does not include timestamps. If temporal data needs to be imputed, it should be calculated using the intime field from the edstays table as a reference, using the formula: (intime + 1 second).",
+      "spanish": "Almacena la información recopilada durante el triaje en el servicio de urgencias. Esta tabla no dispone de `timestamps`. Si se necesita imputar `timestamps`, su cálculo debe hacerse tomando como referencia el campo `intime` ubicado enla tabla `edstays` mediante el cálculo: (`intime` + 1 segundo.)"
+    }
+  },
+  "fields": [
+    {
+      "name": "subject_id",
+      "description": {
+        "english": "subject_id is a unique identifier which specifies an individual patient. Any rows associated with a single subject_id pertain to the same individual.",
+        "spanish": "subject_id es un identificador único que hace referencia a un paciente individual. Todas las filas asociadas a un único subject_id pertenecen al mismo individuo."
+      }
+    },
+    {
+      "name": "stay_id",
+      "description": {
+        "english": "An identifier which uniquely identifies a single emergency department stay for a single patient.",
+        "spanish": "Un identificador que identifica una única estancia en el servicio de urgencias para un paciente."
+      }
+    },
+    {
+      "name": "temperature",
+      "description": {
+        "english": "The patient’s temperature in degrees Farenheit. Some temperatures may be incorrectly documented as Celsius.",
+        "spanish": "La temperatura del paciente, por defecto está en grados Fahrenheit. Algunas temperaturas pueden estar incorrectamente regisradas en Celsius."
+      }
+    },
+    {
+      "name": "heartrate",
+      "description": {
+        "english": "The patient’s heart rate in beats per minute.",
+        "spanish": "La frecuencia cardíaca del paciente en latidos por minuto."
+      }
+    },
+    {
+      "name": "resprate",
+      "description": {
+        "english": "The patient’s respiratory rate in breaths per minute.",
+        "spanish": "La frecuencia respiratoria del paciente en respiraciones por minuto."
+      }
+    },
+    {
+      "name": "o2sat",
+      "description": {
+        "english": "The patient’s peripheral oxygen saturation as a percentage.",
+        "spanish": "La saturación periférica de oxígeno del paciente como porcentaje."
+      }
+    },
+    {
+      "name": "sbp",
+      "description": {
+        "english": "The patient’s systolic blood pressure, measured in millimetres of mercury (mmHg).",
+        "spanish": "La presión arterial sistólica del paciente, medida en milímetros de mercurio (mmHg)."
+      }
+    },
+    {
+      "name": "dbp",
+      "description": {
+        "english": "The patient’s diastolic blood pressure, measured in millimetres of mercury (mmHg).",
+        "spanish": "La presión arterial diastólica del paciente, medida en milímetros de mercurio (mmHg)."
+      }
+    },
+    {
+      "name": "pain",
+      "description": {
+        "english": "The level of pain self-reported by the patient, on a scale of 0-10.",
+        "spanish": "El nivel de dolor auto reportado por el paciente, en una escala de 0 a 10."
+      }
+    },
+    {
+      "name": "acuity",
+      "description": {
+        "english": "An order of priority based upon acuity utilizing the Emergency Severity Index (ESI) Five Level triage system. This priority is assigned by a registered nurse. Level 1 is the highest priority, while level 5 is the lowest priority.",
+        "spanish": "Un orden de prioridad basado en el nivel de triaje utilizando el sistema de cinco niveles del Índice de Severidad de Emergencias (ESI). Esta prioridad es asignada por un profesional de enfermería. El nivel 1 es la mayor prioridad o gravedad, mientras que el nivel 5 es la menor prioridad o gravedad."
+      }
+    },
+    {
+      "name": "chiefcomplaint",
+      "description": {
+        "english": "A deidentified free-text description of the patient’s chief complaint.",
+        "spanish": "Una descripción de texto libre desidentificada de la queja principal del paciente."
+      }
+    }
+  ]
+}

@@ -1,0 +1,19 @@
+services:
+  qdrant:
+    image: qdrant/qdrant
+    ports:
+      - "127.0.0.1:6336:6333"
+      - "127.0.0.1:6337:6334"
+    volumes:
+      - ./data/qdrant:/qdrant/storage
+    environment:
+      - QDRANT_ALLOW_RESET=true
+      - QDRANT_HOST=127.0.0.1
+      - QDRANT_ALLOW_CORS=false
+    networks:
+      - tfm_net
+    restart: unless-stopped
+
+networks:
+  tfm_net:
+    driver: bridge 

@@ -1,0 +1,81 @@
+{
+  "version": "1.0.0",
+  "last_updated": "2024-04-08",
+  "table": {
+    "name": "medrecon",
+	  "module":"module_ed",
+    "definition": {
+      "english": "On admission to the emergency departments, staff will ask the patient what current medications they are taking. This process is called medicine reconciliation, and the medrecon table stores the findings of the care providers.",
+      "spanish": "Al ingresar a los servicios de urgencias, el personal sanitario pregunta al paciente qué medicamentos está tomando actualmente. Este proceso se llama conciliación de medicamentos, y la tabla medrecon almacena los hallazgos de los profesoniales de la salud."
+    },
+    "purpose": {
+      "english": "Document medications a patient is currently taking.",
+      "spanish": "Documentar los medicamentos que un paciente está tomando actualmente."
+    }
+  },
+  "fields": [
+    {
+      "name": "subject_id",
+      "description": {
+        "english": "subject_id is a unique identifier which specifies an individual patient. Any rows associated with a single subject_id pertain to the same individual.",
+        "spanish": "subject_id es un identificador único que hace referencia a un paciente individual. Todas las filas asociadas a un único subject_id pertenecen al mismo individuo."
+      }
+    },
+    {
+      "name": "stay_id",
+      "description": {
+        "english": "An identifier which uniquely identifies a single emergency department stay for a single patient.",
+        "spanish": "Un identificador que identifica una única estancia en el servicio de urgencias para un paciente."
+      }
+    },
+    {
+      "name": "charttime",
+      "description": {
+        "english": "The time at which the medicine reconciliation was charted.",
+        "spanish": "La hora en la que se registró la conciliación de medicamentos."
+      }
+    },
+    {
+      "name": "name",
+      "description": {
+        "english": "The name of the medication.",
+        "spanish": "El nombre del medicamento."
+      }
+    },
+    {
+      "name": "gsn",
+      "description": {
+        "english": "The Generic Sequence Number (GSN), an ontology for the medication.",
+        "spanish": "El Número de Secuencia Genérico (GSN), una ontología para el medicamento."
+      }
+    },
+    {
+      "name": "ndc",
+      "description": {
+        "english": "The National Drug Code (ndc) for the medication.",
+        "spanish": "El Código Nacional de Medicamentos (NDC) para el medicamento."
+      }
+    },
+    {
+      "name": "etc_rn",
+      "description": {
+        "english": "Medications are grouped using a hierarchical ontology known as the Enhanced Therapeutic Class (ETC). As more than one group may be associated with the medication, a sequential integer (etc_rn) was generated to differentiate the groups. There is no meaning to the order of etc_rn.",
+        "spanish": "Los medicamentos se agrupan utilizando una ontología jerárquica conocida como la Enhanced Therapeutic Class (ETC). Dado que se puede asociar más de un grupo al medicamento, se generó un número entero secuencial (etc_rn) para diferenciar los grupos. No tiene un significado inherente el orden de etc_rn."
+      }
+    },
+    {
+      "name": "etccode",
+      "description": {
+        "english": "etccode provides the code of the group within the Enhanced Therapeutic Class (ETC).",
+        "spanish": "etccode proporciona el código del grupo dentro de la Enhanced Therapeutic Class (ETC)."
+      }
+    },
+    {
+      "name": "etcdescription",
+      "description": {
+        "english": "etcdescription provides the description of the group within the Enhanced Therapeutic Class (ETC).",
+        "spanish": "etcdescription proporciona la descripción del grupo dentro de la Enhanced Therapeutic Class (ETC)."
+      }
+    }
+  ]
+}

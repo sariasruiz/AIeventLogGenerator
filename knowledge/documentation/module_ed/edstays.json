@@ -1,0 +1,81 @@
+{
+  "version": "1.0.0",
+  "last_updated": "2024-04-08",
+  "table": {
+    "name": "edstays",
+    "module":"module_ed",
+    "definition": {
+      "english": "The edstays table is the primary tracking table for emergency department visits. It provides the time the patient entered the emergency department and the time they left the emergency department.",
+      "spanish": "La tabla edstays es la tabla principal de registro para las visitas al servicio de urgencias. Proporciona la hora en la que el paciente ingresó al servicio de urgencias y la hora en la que salió."
+    },
+    "purpose": {
+      "english": "Track patient admissions to the emergency department.",
+      "spanish": "Rastrear las admisiones de pacientes en el servicio de urgencias."
+    }
+  },
+  "fields": [
+    {
+      "name": "subject_id",
+      "description": {
+        "english": "subject_id is a unique identifier which specifies an individual patient. Any rows associated with a single subject_id pertain to the same individual.",
+        "spanish": "subject_id es un identificador único que especifica un paciente individual. Todas las filas asociadas a un único subject_id pertenecen al mismo individuo."
+      }
+    },
+    {
+      "name": "hadm_id",
+      "description": {
+        "english": "If the patient was admitted to the hospital after their ED stay, hadm_id will contain the hospital identifier (ranges from 2000000 to 2999999). The hadm_id may be used to link the ED stay with the hospitalization in corporative database. If hadm_id is NULL, the patient was not admitted to the hospital after their ED stay.",
+        "spanish": "Si el paciente fue admitido en el hospital después de su estancia en urgencias, hadm_id contendrá el identificador del hospital (rango de 2000000 a 2999999). hadm_id puede usarse para vincular la estancia en urgencias con la hospitalización en la base de datos corporativa. Si hadm_id es NULL, el paciente no fue admitido en el hospital después de su estancia en urgencias."
+      }
+    },
+    {
+      "name": "stay_id",
+      "description": {
+        "english": "An identifier which uniquely identifies a single emergency department stay for a single patient.",
+        "spanish": "Un identificador que identifica de forma única una única estancia en el servicio de urgencias para un único paciente."
+      }
+    },
+    {
+      "name": "intime",
+      "description": {
+        "english": "The admission datetime (intime) of the given emergency department stay.",
+        "spanish": "La fecha y hora del ingreso (intime) de la estancia en el servicio de urgencias."
+      }
+    },
+    {
+      "name": "outtime",
+      "description": {
+        "english": "The discharge datetime (outtime) of the given emergency department stay.",
+        "spanish": "La fecha y hora de egreso (outtime) de la estancia en el servicio de urgencias."
+      }
+    },
+    {
+      "name": "gender",
+      "description": {
+        "english": "The patient’s administrative gender as documented in the hospital system.",
+        "spanish": "El género administrativo del paciente según consta en los registros del sistema hospitalario."
+      }
+    },
+    {
+      "name": "race",
+      "description": {
+        "english": "The patient’s self-reported race. Race is aggregated into higher level categories for very small groups. As of corporative database v2.1, there were 33 unique categories for race.",
+        "spanish": "La raza autoinformada del paciente. La raza se agrupa en categorías de nivel superior para grupos muy pequeños. A partir de la base de datos corporativa v2.1, había 33 categorías únicas para la raza."
+      }
+    },
+    {
+      "name": "arrival_transport",
+      "description": {
+        "english": "The method through which the individual arrived at the ED. Possible entries include: WALK IN, AMBULANCE, UNKNOWN, OTHER, HELICOPTER.",
+        "spanish": "El método a través del cual el paciente llegó al servicio de urgencias. Las entradas posibles incluyen: WALK IN, AMBULANCE, UNKNOWN, OTHER, HELICOPTER."
+      }
+    },
+    {
+      "name": "disposition",
+      "description": {
+        "english": "The method through which the individual left the ED. Possible non-null methods include: HOME, ADMITTED, TRANSFER, LEFT WITHOUT BEING SEEN, OTHER, LEFT AGAINST MEDICAL ADVICE, ELOPED, EXPIRED.",
+        "spanish": "El método a través del cual el individuo salió del servicio de urgencias. Las posibles opciones, excluyendo valores nulos, incluyen: HOME, ADMITTED, TRANSFER, LEFT WITHOUT BEING SEEN, OTHER, LEFT AGAINST MEDICAL ADVICE, ELOPED, EXPIRED."
+      }
+    }
+  ]
+}
