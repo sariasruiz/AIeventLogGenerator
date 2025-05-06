@@ -1,9 +1,13 @@
 # Documentación del Proyecto
 
 **Autor:** Sergio Arias Ruiz
+
 **Email:** sariasri@uoc.edu
+
 **Fecha:** Mayo 2025
+
 **Licencia:** [Apache 2.0](LICENSE.md)
+
 **Demo:** [http://chatbot.sergioarias.eu](https://chatbot.sergioarias.eu)
 
 
