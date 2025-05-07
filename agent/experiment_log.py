@@ -271,7 +271,8 @@ class Experiment:
 
             # Prompt para generar el SQL mejorado y script SQL mejorado.
             "prompt_sql_generator_enhanced": self.prompt_sql_generator_enhanced,
-            "sql_script_enhanced": self.sql_script_enhanced
+            "sql_script_enhanced": self.sql_script_enhanced,
+            "result": "unkown"
         }
         # Preparamos la estructura para la exportación de los datos.
         filename = f"{self.id}.json"

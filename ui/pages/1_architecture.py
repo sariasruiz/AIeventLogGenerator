@@ -43,7 +43,7 @@ def app():
     # Configurar la página
     page_config(layout="wide")
 
-    # Sidebar con metadatos del chatbot
+    # Sidebar
     with st.sidebar:
         # Botón de cerrar sesión
         if AUTH_REQUIRED and st.button("Cerrar sesión"):
@@ -117,5 +117,5 @@ def app():
 
     footer()
 
-# Ejecutamos la página:
+# Llamada a la página de arquitectura
 app() 

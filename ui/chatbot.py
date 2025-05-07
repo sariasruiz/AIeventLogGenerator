@@ -119,9 +119,6 @@ def app():
                 # Obtenemos respuesta pasando el prompt
                 response = st.session_state.agent.chat(prompt)
 
-                # Guardamos prompt y respuesta en memoria del agente
-                #st.session_state.agent.memory.save_context({"input": prompt}, {"output": response})
-
                 # Mostrar respuesta en interfaz
                 st.markdown(response)
 

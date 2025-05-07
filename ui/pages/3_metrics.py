@@ -4,6 +4,7 @@ import pandas as pd
 from ui.utils.style import footer, page_config, title
 # Importamos las métricas de interés
 from ui.utils.metrics import (
+    get_fields_to_include,
     load_metrics_data,
     calculate_total_experiments,
     calculate_time_metrics,
@@ -17,7 +18,6 @@ from ui.utils.metrics import (
 from ui.auth.auth import logout
 from ui.auth.auth_decorators import require_auth
 from dotenv import load_dotenv
-
 
 # Cargar variables de entorno
 load_dotenv()
@@ -68,42 +68,32 @@ def app():
         
         with col1:
             st.metric(
-                label="Número de llamadas",
-                value=total_experiments,
-                delta=None
-            )
+                label="Número de llamadas",value=total_experiments)
         
         with col2:
             st.metric(
                 label="Promedio seg. de respuesta.",
-                value=f"{time_metrics['total_time_avg']:.1f} seg",
-                delta=None
-            )
+                value=f"{time_metrics['total_time_avg']:.1f} seg")
         
         with col3:
             st.metric(
                 label="Promedio Tokens consumidos",
-                value=f"{token_metrics['total_tokens_avg']:.1f}",
-                delta=None
-            )
+                value=f"{token_metrics['total_tokens_avg']:.1f}")
         
         with col4:
             st.metric(
                 label="Promedio Coste en USD",
-                value=f"${cost_metrics['total_cost_avg']:.2f}",
-                delta=None
-            )
+                value=f"${cost_metrics['total_cost_avg']:.2f}")
         
         with col5:
             st.metric(
                 label="Promedio Vectores Recuperados.",
-                value=f"{retriever_metrics['avg_retrieved_vectors']:.1f}",
-                delta=None
-            )
+                value=f"{retriever_metrics['avg_retrieved_vectors']:.1f}")
         
-        # Tabs para los boxplots
+        # Secciones para los boxplots
         tab1, tab2, tab3, tab4 = st.tabs(["Tiempos", "Tokens", "Costes", "Casos Detallados"])
         
+        # Tiempos
         with tab1:
             st.subheader("Análisis de Tiempos")
             fig_time_total, fig_time_components = create_time_boxplots(df)
@@ -113,6 +103,7 @@ def app():
             with col2:
                 st.plotly_chart(fig_time_components, use_container_width=True)
         
+        # Tokens
         with tab2:
             st.subheader("Análisis de Tokens")
             fig_token_total, fig_token_components = create_token_boxplots(df)
@@ -120,8 +111,9 @@ def app():
             with col1:
                 st.plotly_chart(fig_token_total, use_container_width=True)
             with col2:
-                st.plotly_chart(fig_token_components, use_container_width=True)
+                st.plotly_chart(fig_token_components, use_container_width=True)        
         
+        # Costes
         with tab3:
             st.subheader("Análisis de Costes")
             fig_cost_total, fig_cost_components = create_cost_boxplots(df)
@@ -131,52 +123,21 @@ def app():
             with col2:
                 st.plotly_chart(fig_cost_components, use_container_width=True)
         
+        # Casos Detallados
         with tab4:
             st.subheader("Casos Detallados")
             
             # Preparar datos para mostrar
             detailed_df = df.copy()
             
-            # DEfinimos las columnas de nuestro interés
-            columns_to_show = [
-                'id',
-                'datetime',
-                'time_in_seconds_total',
-                'time_in_seconds_retriever',
-                'time_in_seconds_sql_generation',
-                'time_in_seconds_sql_generation_enhanced',
-                'tokens_total_tool',
-                'tokens_total_retriever_embedding',
-                'tokens_total_sql_generation',
-                'tokens_total_sql_generation_enhanced',
-                'total_cost_tool_in_dollars',
-                'total_cost_retriever_embedding_in_dollars',
-                'total_cost_sql_generation_in_dollars',
-                'total_cost_sql_generation_enhanced_in_dollars',
-                'retriever_score_count_pass'
-            ]
-            
+            # DEfinimos las columnas resumen del dataframe
+            # Que se definían en la Tupla de la función get_fields_to_include()[1]            
             # Seleccionamos las columnas relevantes
-            detailed_df = detailed_df[columns_to_show]
+            detailed_df = detailed_df[get_fields_to_include()[1]]
             
             # Definimos nuevos nombres para las columnas y mejorar visualización.
-            column_names = {
-                'id': 'ID',
-                'datetime': 'Fecha y Hora',
-                'time_in_seconds_total': 'Tiempo Total (s)',
-                'time_in_seconds_retriever': 'Tiempo Retriever (s)',
-                'time_in_seconds_sql_generation': 'Tiempo SQL Generator (s)',
-                'time_in_seconds_sql_generation_enhanced': 'Tiempo SQL Generator Enhanced (s)',
-                'tokens_total_tool': 'Tokens Totales',
-                'tokens_total_retriever_embedding': 'Tokens Retriever',
-                'tokens_total_sql_generation': 'Tokens SQL Generator',
-                'tokens_total_sql_generation_enhanced': 'Tokens SQL Generator Enhanced',
-                'total_cost_tool_in_dollars': 'Coste Total ($)',
-                'total_cost_retriever_embedding_in_dollars': 'Coste Retriever ($)',
-                'total_cost_sql_generation_in_dollars': 'Coste SQL Generator ($)',
-                'total_cost_sql_generation_enhanced_in_dollars': 'Coste SQL Generator Enhanced ($)',
-                'retriever_score_count_pass': 'Vectores Recuperados'
-            }
+            # Recuperamos el diccionario de mapeo de nombres amigables.
+            column_names = get_fields_to_include()[2]
             
             # Renombrar las columnas
             detailed_df = detailed_df.rename(columns=column_names)
@@ -200,5 +161,5 @@ def app():
         st.error(f"Error durante el proceso de carga de los datos: {str(e)}")
     
 
-# Llamada a la función
+# Llamada a la página de métricas
 app()

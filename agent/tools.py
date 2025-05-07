@@ -241,7 +241,7 @@ def search_and_generate_sql(user_needs: str) -> dict:
             - las necesidades del usuario.
             - conocimiento de la base de datos corporativa.
             - formato del script SQL.
-            - mantener la coherencia de los tipos de datos en todo el script.
+            - mantener la coherencia de los tipos de datos originales en todo el script.
 
             Explica al usuario:
             - Comenta los bloques de eventos según el contexto de la base de datos.

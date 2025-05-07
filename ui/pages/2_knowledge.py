@@ -39,6 +39,7 @@ def app():
     with st.sidebar:
         if AUTH_REQUIRED and st.button("Cerrar sesión"):
             logout()
+            
         footer()
 
     # Título y descripción
@@ -130,5 +131,5 @@ def app():
 
     footer()
 
-# Ejecutamos la página:
+# Llamada a la página de conocimiento
 app() 

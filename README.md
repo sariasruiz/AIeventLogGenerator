@@ -19,15 +19,17 @@ Es indispensable enviar el correo de solicitud desde una **dirección de email v
 
 ## Descripción
 
-Este proyecto implementa un chatbot que genera scripts SQL a partir de preguntas en lenguaje natural. Utiliza RAG (Retrieval Augmented Generation) para recuperar información relevante de la base de datos y generar consultas SQL precisas.
+Este proyecto implementa un chatbot para interactuar con un AI Agent que tiene como misión principal generar scripts SQL para construir logs de eventos compatibles con el Process Mining.
+
+Para lograrlo, el AI Agent realiza 5 preguntas metodológicas en lenguaje natural y utiliza técnicas RAG (Retrieval Augmented Generation) para recuperar información relevante de la base de datos y generar los scripts SQL mediante dos LLM razonadores.
 
 ## Resumen y objetivo del proyecto
 
 Aplicación de técnicas novedosas a la disciplina del Process Mining en el ámbito hospitalario.
-En la revisión de literatura se observa una baja adopción del Process Mining en el sector causado principalmente por **la complejidad en la elaboración de logs de eventos.** 
+En la revisión de literatura se observa una baja adopción del Process Mining en el sector hospitalario, causado principalmente por **la complejidad en la elaboración de logs de eventos.** 
 
 - La información en los sistemas de información hospitalaria (HIS), suelen estar repartidas por decenas de tablas, dificultando la obtención de información de extremo a extremo.
-- La construcción de scripts SQL que permiten la extracción continua siendo un proceso tedioso y pesado.
+- La construcción de scripts SQL que permiten la extracción, continua siendo un proceso tedioso y pesado.
 
 Se intenta explorar en un entorno controlado si la Inteligencia Artificial Generativa, mediante técnicas de Generación Aumentada por Recuperación pueden ayudar en la construcción de estos logs de eventos, **conectando la IA al conocimiento estructural de una base de datos hospitalaria**. 
 
@@ -81,7 +83,7 @@ app/
 |
 |   (AI Agent Langchain)
 |-- agent/
-│   | __init__.py
+│   |-- __init__.py
 │   |-- loader.py                     -> Clase que regula la lógica de la Carga del Conocimiento a Qdrant.
 │   |-- agent.py                      -> Clase principal de la configuración del Agente.
 │   |-- memory.py                     -> Clase que regula la memoria del AI Agent (Memoria simple)
@@ -90,26 +92,28 @@ app/
 │   |-- experiment_log.py             -> Clase que regula la monitorización de las *tools* y la monitorización de la carga de conocimiento.
 │   |-- prompt_templates.py           -> Clase que regula el prompt base del agente.
 │   |-- utils/                        -> Funciones auxiliares de utilidad para el AI Agent
-|       |-- logging_config.py            -> Centralización del formato del logger.
+|       |-- logging_config.py             -> Centralización del formato del logger.
 |
 |   (Interfaz Usuario Streamlit)
 |-- ui/
-|   |-- (Archivo principal interfaz)
-│   |-- chatbot.py                     -> Página principal de la interfaz con la lógica del chatbot.
-│   |-- utils/                         -> Contiene funciones auxilares para la interfaz
+|   |-- chatbot.py                    -> Página principal de la interfaz con la lógica del chatbot.
+|   |-- utils/                        -> Contiene funciones auxiliares para la interfaz
 |   |   |-- style.py                      -> Módulos de interfaz reutilizables.
-|   |   |-- metrics.py                    -> Módulos de cálculos de métricas y gráficos
-│   |-- auth/                          -> Contiene módulo de autenticación con AWS Cognito
-|   |   |-- auth.py                       -> Lógica de autenticación con AWS Cognito.
+|   |   |-- logs_sql.py                   -> Funciones para manejar los logs de SQL.
+|   |   |-- metrics.py                    -> Módulos de cálculos de métricas y gráficos.
+|   |-- auth/                         -> Contiene módulo de autenticación con AWS Cognito
+|   |   |-- auth.py                       -> Lógica de autenticación.
 |   |   |-- auth_decorators.py            -> Decorador, que permite modularizar la llamada a auth.py
-│   |-- pages/                         -> Contiene las páginas secundarias de la app.
-|   |   |-- app_architecture.py           -> Contiene la arquitectura de la app.
-|   |   |-- app_knowledge.py              -> Contiene la documentación de la base de datos
-|   |   |-- app_metrics.py                -> Métricas de uso de las invocaciones a la Tool.
-|   |   
-│   |-- .streamlit/                    -> Directorio para la configuración oficial de Streamlit.
-|   |   |-- config.toml                   -> Archivo de configuración.
-│   |-- static/                        -> Directorio con elementos estáticos: imágenes u otros archivos.
+|   |-- pages/                        -> Contiene las páginas secundarias de la app.
+|   |   |-- 1_metrics.py                  -> Métricas de uso de las invocaciones a la Tool.
+|   |   |-- 2_knowledge.py                -> Contiene la documentación de la base de datos cargada en Qdrant.
+|   |   |-- 3_architecture.py             -> Contiene la arquitectura de la app.
+|   |   |-- 4_logs_sql.py                 -> Visualización de los logs de SQL generados por todos los usuarios.
+|   |-- static/                           -> Directorio con elementos estáticos: imágenes u otros archivos.
+|
+|   (Directorio de configuración de streamlit)
+|-- .streamlit/                       
+|      |-- config.toml                -> Archivo de configuración streamlit.
 |
 |   (Conocimiento estructura Base de Datos)
 |-- knowledge/                         -> Módulo de conocimiento sobre la base datos (Archivos `.json`)
@@ -122,7 +126,7 @@ app/
 |       |   |-- triage.json                  -> Tabla `triage`: Información sobre el evento de Triaje.
 |       |   |-- vitalsign.json               -> Tabla `vitalsign`: Toma de constantes vitales durante la estancia.
 |       |   |-- pyxis.json                   -> Tabla `pyxis`: Dispensación de medicamentos.
-|       |-- modules.json                     -> Información cualitativa sobre los módulos de MIMIC-IV
+|       |-- modules.json                  -> Información cualitativa sobre los módulos de MIMIC-IV
 | 
 |   (Resultados Experimento y Monitorización)
 |-- output/
@@ -131,7 +135,7 @@ app/
 |
 |   (Scripts auxiliares)
 |-- scripts/
-│   |-- load_schema.py                        -> Script para la carga de información `<prefijo módulo>_schema.json`
+│   |-- load_schema.py                -> Script para la carga de información `<prefijo módulo>_schema.json`
 |                                                en base de datos vectorial Qdrant.
 │ 
 |
