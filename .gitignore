@@ -176,3 +176,14 @@ cython_debug/
 
 # qdrant
 qdrant/data
+
+# results
+results/csv/
+results/json/
+output/
+
+# notebooks
+notebooks/old/
+
+# experiments
+experiment_output/

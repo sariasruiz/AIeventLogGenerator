@@ -34,11 +34,9 @@ logger = logging.getLogger(__name__)
     # Devuelve el resultado directamente, sin usar el LLM del agente (El agente debe terminar ahí.)
     return_direct=True,
     description="""
-    Basándose en un informe de la necesidad del usuario como entrada,
-    esta herramienta:
-    Primero, buscará el contexto relevante en la base de datos de datos corporativa.
-    Posteriormente generará directamente un script SQL
-    siguiendo un formato adaptado para la generación de logs de eventos.
+    Recibe como entrada el informe completo de necesidad del usuario 
+    Con esta tool buscará el contexto relevante en la base de datos de datos corporativa.
+    Posteriormente generará directamente un script SQL.
     """
 )
 def search_and_generate_sql(user_needs: str) -> dict:
@@ -57,7 +55,7 @@ def search_and_generate_sql(user_needs: str) -> dict:
     # Configuración LLM
     provider = os.getenv("SQL_LLM_PROVIDER", "OPENAI").upper()
     model = os.getenv("SQL_LLM_MODEL", "gpt-4o-mini")
-    temperature = float(os.getenv("SQL_LLM_TEMPERATURE", 0))
+    temperature = float(os.getenv("SQL_LLM_TEMPERATURE", 1))
 
     if provider == "OPENAI":
         llm = ChatOpenAI(model=model, temperature=temperature)
@@ -121,7 +119,7 @@ def search_and_generate_sql(user_needs: str) -> dict:
           siguiendo las reglas siguientes:
 
         ## 0. Reglas básicas:
-        - Tu único conocimiento sobre la base de datos corporativaes el contexto del esquema proporcionado.
+        - Tu único conocimiento es sobre la base de datos corporativa mediante el contexto del esquema proporcionado.
         - Contesta únicamente con el código SQL sin ningún comentario adicional.
         - No incluyas comentarios de cortesía o despedida. Eres un generador de código.
         - Asegura no generar campos o tablas inexistentes en el contexto de la base de datos proporcionado.
@@ -129,7 +127,7 @@ def search_and_generate_sql(user_needs: str) -> dict:
           intenta generar un log de eventos con todos los `id` posibles en el contexto recuperado, infiere eventos que dispongan de 'timestamps' en sus tablas y añade como atributos todas las columnas restantes de las mismas.
         
         ## 1. Identificadores únicos. (obligatorio)
-        - Incorpora los identificadores únicos al principio del script manteniendo su nombre oiriginal.
+        - Incorpora los identificadores únicos al principio del script manteniendo su nombre original.
         - Estos identificadores permiten reconocer de forma inequívoca cada instancia del proceso (p. ej., un paciente o una estancia).
 
         ## 2. Marca temporal. (obligatorio)
@@ -144,27 +142,33 @@ def search_and_generate_sql(user_needs: str) -> dict:
         - Si el usuario no te da un valor exacto para su nombre, usa el nombre de la actividad que mejor se ajuste.
         - Es necesario que el evento solicitado presente una marca temporal, ya sea una columna: "Fecha Hora", "Fecha"+"Hora".
         - Algunos eventos especiales pueden requerir una reconstrucción atípica, 
-          que involucran cálculos uniones varias tablas, dichos casos se especifican en el contexto de la base de datos.
+          que involucran cálculos o uniones de varias tablas, dichos casos se especifican en el contexto de la base de datos.
 
         ## 4. Atributos adicionales *(opcionales)*
         - Añade columnas con la información complementaria relevante para el análisis (p. ej., *nivel de triaje*, *código diagnóstico*, *Laboratorio*, ...).
-        - Mantén los nombres originales de las columnas de atributos siempre que sea posible.
+        - Los atributos que se usan en algún evento, deben replicarse en el resto de eventos con valor `NULL`, para garantizar el buen funcionamiento de las operaciones `UNION ALL`.
+        - En cada bloque **CTE** (`WITH`) mantén el mismo alias con el nombre exacto original que en la base de datos.
+        - Si alguna columna de atributos se repite en nombre y en tipo de datos, utiliza el mismo nombre original y comparten tipo de datos aprovecha la misma columna.
 
-        ## 5. Reglas de formato del script SQL
+        ## 5. Reglas de formato e integridad del script SQL
         - Ajusta el dialecto al motor de base de datos.
-        - Utiliza **CTEs** (`WITH`) para separar los distintos tipos de evento (p. ej., admisiones, altas, medicaciones).
-        - Combina todas las CTEs con **`UNION ALL`**.
-        - Especifica el esquema de la base de datos en el `FROM`.
-        - Orden de columnas en cada CTE y en el `UNION ALL` final:
-            1. Columnas con los identificadores únicos
+        - Utiliza **CTEs** (`WITH`) para descomponer el script en bloques sencillos, claros y reutilizables: bloques de eventos (p. ej., admisiones, altas, medicaciones), operaciones auxiliares, validaciones, etc.
+        - Utiliza **CTEs** (`WITH`) adicionales al principio del script si hay validaciones de datos o filtros que afecten a toda una tabla.
+        - La última **CTE** ('WITH`) debe ser una operación **`UNION ALL`** para formar el log de eventos final.
+        - Especifica el esquema de la base de datos en las operaciones `FROM` y `JOIN`.
+        - Orden de columnas en las CTE y en el `UNION ALL` final:
+            1. Columnas con los identificadores únicos siempre al principio.
             2. `timestamps`
             3. `activity`
             4. Columnas de Atributos adicionales.
-        - Si un atributo se repite en varios eventos, usa **una sola** columna.
         - Si algún atributo tiene secuencia, NO limites al primer elemento, a no ser que lo especifique el usuario. (ojo con el uso de JOIN o LEFT JOIN si es necesario repetir eventos para mantener la secuencia.)
-        - Cuando un atributo no aplique a un evento, rellénalo con `NULL`. 
-        - Usa los nombres originales de las columnas salvo los mapeos indicados de `timestamps` y `activity`, o los mapeos que indique el usuario.
-        - Concluye siempre con **`ORDER BY timestamps ASC`** sin ';' al final del script.
+        - Cuando un atributo no aplique a un evento, rellénalo con `NULL`.
+        - Mantén la integridad de los tipos de datos originales en todo el script, mediante EXPLICIT CASTS.
+        - Usa los EXPLICIT CASTS óptimos para el dialecto SQL utilizado. (por ejemplo, '1234'::INTEGER en PostgreSQL o `CAST(column_name AS DATE)` en otros dialectos.)
+        - Para las relaciones entre tablas usa tiempre nomenclatura estándar de SQL tipo `FROM <A>.<B> <C> <JOIN'S> <ON> <CONDITIONS>`.
+        - Usa siempre los nombres originales de las columnas salvo los mapeos indicados de `timestamps` y `activity`, o los mapeos que indique el usuario.
+        - Tabula el script SQL para facilitar la lectura de los bloques `CTE`, operaciones `CAST`.
+        - Concluye siempre el script con **`SELECT * FROM (…) ORDER BY timestamps ASC;`** al final del script a no ser que el usuario especifique otro orden.
        
         ## 6. Ejemplo de output del script SQL.
 
@@ -237,16 +241,27 @@ def search_and_generate_sql(user_needs: str) -> dict:
 
             # Objetivo
             #################################
-            Revisa en busca de inconsistencias y errores en el script SQL generado en base a:
+            En base a:
             - las necesidades del usuario.
             - conocimiento de la base de datos corporativa.
             - formato del script SQL.
-            - mantener la coherencia de los tipos de datos originales en todo el script.
+            - el primer script SQL generado.
 
-            Explica al usuario:
-            - Comenta los bloques de eventos según el contexto de la base de datos.
-            - Comenta los campos individuales que lo componen según contexto de la base de datos. (unidad, significado, etc.)
-            - Indica los campos que *NO* se han podido encontrar al principio del script (con: `--` no: `/**/`).
+            Revisa en busca de inconsistencias y errores en el script SQL generado.
+            - Garantiza el formato del script SQL.
+            - Corrige errores de sintaxis SQL.
+            - Revisa minuciosamente el apartado de validación de datos, para aplicar los filtros solicitados por el usuario.
+            - Revisa minuciosamente que los campos en los bloques `CTEs` (`WITH`) sean consistentes para la ejecución de la consulta final con los `UNION ALL`.
+            - Revisa minuciosamente que las operaciones `CAST` estén presentes, sean consistentes y correctas para el dialecto SQL utilizado.
+            - Revisa que se respete las operaciones de ordenación especificadas en el contexto.
+            - Elimina campos que no haya pedido el usuario.
+            - Elimina campos que no se puedan encontrar en el contexto de la base de datos (incluyendo emparejamientos forzados).
+            - Garantiza que los alias de las columnas, sean los nombres originales de las columnas del contexto de la base de datos.
+
+            Explica al usuario el contexto del script SQL generado:
+            - Comenta todos los bloques de eventos según el contexto de la base de datos.
+            - Comenta todos los campos individuales que lo componen,según contexto de la base de datos. (unidad, significado, etc.) (si comparten columna con otro evento, comenta ambos en la misma línea)
+            - Indica siempre al principio del script (con: `--` no: `/**/`) los campos y eventos que *NO* se han podido encontrar.
             
             # Output:
             #################################
