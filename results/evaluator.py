@@ -175,58 +175,6 @@ class EvaluationSQLScripts:
             logger.error(f"Error inesperado al calcular las métricas F1, Precision, Recall, TP, FP y FN: {e}")
             raise Exception(f"Error inesperado al calcular las métricas F1, Precision, Recall, TP, FP y FN: {e}")
         
-    def _map_ai_tool_columns_to_benchmark(self, benchmark_columns_list: list[str], ai_tool_columns_list: list[str]) -> list[str]:
-        """
-        Debido a que el nombre de las columnas es muy críptico,
-        una búsqueda de similitud semántica no funciona correctamente.
-
-        Los generadores de scripts SQL de la AI Tool, tienen la orden de mantener
-        los alias de las columnas con el mismo nombre de las columnas originales.
-
-        Pero al tener una temperatura 1, buscan soluciones creativas al problema,
-        y es fácil que fuercen soluciones añadiendo sufijos o prefijos a las columnas.
-
-        Estos prefijos y sufijos afectan al rendimiento de la búsqueda semántica
-        con embeddings, y mecanismos tradicionales de similitud de cadenas de texto 
-        al introducir caracteres adicionales que alargan las cadenas originales.
-
-        Por tanto, se decide crear un mapeo algorítmico, de tal manera que si la lista
-        de columnas de la AI Tool, presenta en algún punto la cadena de texto del benchmark,
-        se remapea al valor del benchmark y se considera como un True Positive.
-
-        En caso contrario, se mantiene su valor original.
-
-        Necesita como entrada:
-        - Una lista de columnas del benchmark.
-        - Una lista de columnas de la AI Tool.
-
-        Devuelve Tupla con:
-        - Una lista de columnas con el resultado de los mapeos.
-        """
-        # Lista de mapeos.
-        # Es necesario ya que el LLM, pese a que tiene la orden
-        # de mantener el mismo nombre de columna original,
-        # puede decidir añadir sufijos o prefijos libremente al nombnre de las
-        # columnas para mantener la legibilidad.
-        ai_tool_map_list = []
-
-        # Recorremos cada elemento de la lista llm
-        for item_ai in ai_tool_columns_list:
-            match = item_ai  # Por defecto, le mantenemos el valor de la columna de la AI Tool
-
-            # Pero si encontramos coincidencia, entre el item de la AI Tool y el benchmark,
-            # actualizamos el valor de la variable 'match' con el valor del item del benchmark.
-            for c_item in benchmark_columns_list:
-                if c_item in item_ai:
-                    match = c_item
-                    break  # Rompemos el for si encontramos una coincidencia
-
-            # Guardamos en el diccionario de mapeo
-            ai_tool_map_list.append(match)
-
-        return ai_tool_map_list
-
-        
     def _coverage_total_rows(
         self,
         len_df_benchmark: int,
