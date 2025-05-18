@@ -67,13 +67,15 @@ Por ese motivo, **para garantizar el cumplimiento de las políticas en materia d
 
 ## Estructura del proyecto
 
-La estructura del proyecto consta de 6 grandes módulos:
+La estructura del proyecto consta de 8 grandes módulos:
 
 - **agent**:     Agente AI en langchain.
 - **ui**:        Interfaz de Usuario en Streamlit.
 - **knowledge**: Conocimiento de estructura de la base de dados (MIMIC-IV)
 - **output**:    Carpeta de salida para la monitorización de la Tool y de la carga de conocimiento en Qdrant.
 - **scripts:**   Scripts de utilidad para el proyecto.
+- **results:**   Lógica de evaluación de resultados y resultados obtenidos en formato 'json'.
+- **notebooks:** Validaciones, experimento y resultados.
 - **qdrant**:    docker-compose para desplegar base de datos vectorial.
 
 El despliegue completo se detalla a continuación:
@@ -136,8 +138,24 @@ app/
 |   (Scripts auxiliares)
 |-- scripts/
 │   |-- load_schema.py                -> Script para la carga de información `<prefijo módulo>_schema.json`
-|                                                en base de datos vectorial Qdrant.
+|                                        en base de datos vectorial Qdrant.
 │ 
+|-- results/:                          -> Contiene scripts, csv y json referente a los resultados del experimento
+|   |-- result_generator.py               -> Script para generar los resultados de la AI Tool vs dataset control
+|   |-- evaluator.py                      -> Cálculo métricas de resultados.
+|   |-- csv/                              -> Directorio salida csv generado por la evaluación de resultados.
+|   |   |-- benchmark/                       -> Ubicación del dataset de control. MIMICEL, si decides replicar 
+|   |   |                                       el experimento
+|   |   |-- AI_Tool/                         -> Ubicación del dataset resultante tras ejecutar un script SQL 
+|   |                                           exitosamente durante la evaluación.
+|   |-- json/                                -> Directorio de salida con los archivos 'json' de resultados
+|                                               del experimento en la replicación de dataset de control.
+|
+|-- notebooks/:                        -> Directorio que contiene notebooks referentes al experimento.
+|   |-- Estructura_MIMICEL.ipynb          -> Verificación carga módulo ED MIMIC-IV en Postgres 16.8.
+|   |                                        Y verificación dataset de control MIMICEL.
+|   |-- N50_Experiment_Agent.ipynb        -> Lanzamiento del experimento, 50 invocaciones a AI Agent.
+|   |-- Results.ipynb                     -> Resultados del experimento.
 |
 |-- (Qdrant)
 |   qdrant/                            -> Módulo docker-compose para Qdrant (Base de Datos Vectorial)
@@ -189,6 +207,10 @@ Nota: Asegúrate de que el directorio `venv` esté incluido en tu `.gitignore` p
 
 ### 2. Instalación de Dependencias
 
+Para la ejecución de este proyecto, versión de Python:
+
+- Python 3.12.3 o superior
+
 El archivo `requirements.txt` incluye las siguientes librerías con sus versiones específicas:
 
 ```txt
@@ -202,7 +224,14 @@ langchain-openai==0.3.16
 langchain-core==0.3.58
 PyJWT==2.10.1
 plotly==6.0.1
+kaleido==0.2.1
 cryptography==44.0.3
+scipy==1.15.3
+numpy==2.2.5
+pandas==2.2.3
+scikit-learn==1.6.1
+SQLAlchemy==2.0.40
+psycopg2-binary==2.9.10
 ```
 
 ### 3. Configuración de Qdrant
@@ -254,7 +283,8 @@ source venv/bin/activate  # En Linux/
 2. **Inicia la aplicación Streamlit**:
 
 ```bash
-streamlit run ui/chatbot.py
+streamlit run ui/chatbot.py # En Linux
+streamlit run ui\chatbot.py # En Windows
 ```
 
 3. **Accede a la aplicación** a través de tu navegador web en la URL que Streamlit proporciona (por defecto http://localhost:8501).

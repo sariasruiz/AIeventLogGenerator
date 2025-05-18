@@ -179,8 +179,8 @@ qdrant/data
 
 # results
 results/csv/
-results/json/
-output/
+#results/json/
+#output/
 
 # notebooks
 notebooks/old/

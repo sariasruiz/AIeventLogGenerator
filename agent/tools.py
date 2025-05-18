@@ -115,7 +115,7 @@ def search_and_generate_sql(user_needs: str) -> dict:
     # Aquí describe la parte del prompt que regula el formato del script SQL a generar.
     script_sql_format = (
         """
-        # Tu tarea principal es: Generación de un **Log de Eventos Hospitalarios** en formato de script SQL,
+        # Tu tarea principal es: Generación de un **Log de Eventos Hospitalarios** en formato de script SQL compatible con el dialecto PostgreSQL,
           siguiendo las reglas siguientes:
 
         ## 0. Reglas básicas:
@@ -229,7 +229,7 @@ def search_and_generate_sql(user_needs: str) -> dict:
         # Se genera el prompt para la 2a generación del Script SQL,
         # que tiene como objetivo, mejorar el resultado de la primera generación.
         prompt_enhance_sql = f"""
-            Eres un experto en SQL hospitalario. Revisa el script SQL generado y realiza las correcciones necesarias.
+            Eres un experto en SQL. Revisa el script SQL generado en dialecto PostgreSQL y realiza las correcciones necesarias.
 
             # Bloque de contexto de necesidades del usuario, conocimientos de la base de datos corporativa y formato del script SQL:
             #################################

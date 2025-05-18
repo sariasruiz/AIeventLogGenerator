@@ -22,7 +22,7 @@ def load_ed_schema():
     # Path del archivo
     base_path = Path(__file__).parent.parent.parent
     ed_schema_path = base_path / "knowledge/ed_schema.json"
-    with open(ed_schema_path, "r") as file:
+    with open(ed_schema_path, "r", encoding="utf-8") as file:
         json_ed_schema = json.load(file)
     
     # Formateo de legibilidad del json

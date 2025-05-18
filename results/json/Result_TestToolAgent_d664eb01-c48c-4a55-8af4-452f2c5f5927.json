@@ -1,0 +1,341 @@
+{
+  "test_id": "TestToolAgent_d664eb01-c48c-4a55-8af4-452f2c5f5927",
+  "evaluation_datetime": "2025-05-17T23:29:51",
+  "execution_ok": 1,
+  "coverage": 1.0422130307165287,
+  "openai_model": "text-embedding-3-small",
+  "columns_f1": 0.8571428571428572,
+  "columns_precision": 0.7692307692307693,
+  "columns_recall": 0.967741935483871,
+  "columns_TP": 30,
+  "columns_FP": 9,
+  "columns_FN": 1,
+  "events_f1": 0.8333333333333334,
+  "events_precision": 0.8333333333333334,
+  "events_recall": 0.8333333333333334,
+  "events_TP": 5,
+  "events_FP": 1,
+  "events_FN": 1,
+  "columns_num_benchmark": 31,
+  "events_num_benchmark": 6,
+  "columns_num_ai_tool": 39,
+  "events_num_ai_tool": 6,
+  "total_rows_benchmark": 7568824,
+  "total_rows_ai_tool": 7888327,
+  "match_dict_columns": {
+    "stay_id": {
+      "ai_column": "stay_id",
+      "score": 0.9999993688460291,
+      "score_treshold": 0.4,
+      "pass": 1
+    },
+    "subject_id": {
+      "ai_column": "subject_id",
+      "score": 0.9999994177811313,
+      "score_treshold": 0.4,
+      "pass": 1
+    },
+    "hadm_id": {
+      "ai_column": "hadm_id",
+      "score": 0.9999992883396593,
+      "score_treshold": 0.4,
+      "pass": 1
+    },
+    "timestamps": {
+      "ai_column": "timestamps",
+      "score": 0.9999999999999998,
+      "score_treshold": 0.4,
+      "pass": 1
+    },
+    "activity": {
+      "ai_column": "activity",
+      "score": 0.9999989709334701,
+      "score_treshold": 0.4,
+      "pass": 1
+    },
+    "gender": {
+      "ai_column": "gender",
+      "score": 0.9999991929545939,
+      "score_treshold": 0.4,
+      "pass": 1
+    },
+    "race": {
+      "ai_column": "triage_heartrate",
+      "score": 0.3085715136256385,
+      "score_treshold": 0.4,
+      "pass": 0
+    },
+    "arrival_transport": {
+      "ai_column": "arrival_transport",
+      "score": 0.9999993495552474,
+      "score_treshold": 0.4,
+      "pass": 1
+    },
+    "disposition": {
+      "ai_column": "disposition",
+      "score": 0.9999993873552719,
+      "score_treshold": 0.4,
+      "pass": 1
+    },
+    "seq_num": {
+      "ai_column": "seq_num",
+      "score": 0.9999992920033312,
+      "score_treshold": 0.4,
+      "pass": 1
+    },
+    "icd_code": {
+      "ai_column": "icd_code",
+      "score": 0.9999993075617467,
+      "score_treshold": 0.4,
+      "pass": 1
+    },
+    "icd_version": {
+      "ai_column": "icd_version",
+      "score": 1.0,
+      "score_treshold": 0.4,
+      "pass": 1
+    },
+    "icd_title": {
+      "ai_column": "icd_title",
+      "score": 0.9999994855887233,
+      "score_treshold": 0.4,
+      "pass": 1
+    },
+    "temperature": {
+      "ai_column": "triage_temperature",
+      "score": 0.4921524393351745,
+      "score_treshold": 0.4,
+      "pass": 1
+    },
+    "heartrate": {
+      "ai_column": "vitalsign_heartrate",
+      "score": 0.7147769457659109,
+      "score_treshold": 0.4,
+      "pass": 1
+    },
+    "resprate": {
+      "ai_column": "triage_resprate",
+      "score": 0.5560412493273305,
+      "score_treshold": 0.4,
+      "pass": 1
+    },
+    "o2sat": {
+      "ai_column": "vitalsign_o2sat",
+      "score": 0.5950852729098272,
+      "score_treshold": 0.4,
+      "pass": 1
+    },
+    "sbp": {
+      "ai_column": "vitalsign_sbp",
+      "score": 0.6399390633832149,
+      "score_treshold": 0.4,
+      "pass": 1
+    },
+    "dbp": {
+      "ai_column": "triage_dbp",
+      "score": 0.5764741918257499,
+      "score_treshold": 0.4,
+      "pass": 1
+    },
+    "pain": {
+      "ai_column": "vitalsign_pain",
+      "score": 0.4462848528689105,
+      "score_treshold": 0.4,
+      "pass": 1
+    },
+    "acuity": {
+      "ai_column": "acuity",
+      "score": 0.9999993816379712,
+      "score_treshold": 0.4,
+      "pass": 1
+    },
+    "chiefcomplaint": {
+      "ai_column": "chiefcomplaint",
+      "score": 0.9999993018231348,
+      "score_treshold": 0.4,
+      "pass": 1
+    },
+    "rhythm": {
+      "ai_column": "vitalsign_rhythm",
+      "score": 0.5319325970292128,
+      "score_treshold": 0.4,
+      "pass": 1
+    },
+    "name": {
+      "ai_column": "disp_name",
+      "score": 0.4897267995290265,
+      "score_treshold": 0.4,
+      "pass": 1
+    },
+    "gsn": {
+      "ai_column": "disp_gsn",
+      "score": 0.7254259712055517,
+      "score_treshold": 0.4,
+      "pass": 1
+    },
+    "ndc": {
+      "ai_column": "recon_ndc",
+      "score": 0.6054521113046473,
+      "score_treshold": 0.4,
+      "pass": 1
+    },
+    "etc_rn": {
+      "ai_column": "recon_etc_rn",
+      "score": 0.653633126274717,
+      "score_treshold": 0.4,
+      "pass": 1
+    },
+    "etccode": {
+      "ai_column": "recon_etccode",
+      "score": 0.7177923457348597,
+      "score_treshold": 0.4,
+      "pass": 1
+    },
+    "etcdescription": {
+      "ai_column": "recon_etcdescription",
+      "score": 0.6467823268365651,
+      "score_treshold": 0.4,
+      "pass": 1
+    },
+    "med_rn": {
+      "ai_column": "disp_med_rn",
+      "score": 0.66355056565137,
+      "score_treshold": 0.4,
+      "pass": 1
+    },
+    "gsn_rn": {
+      "ai_column": "disp_gsn_rn",
+      "score": 0.8157578126535308,
+      "score_treshold": 0.4,
+      "pass": 1
+    }
+  },
+  "match_dict_events": {
+    "Vital sign check": {
+      "ai_column": "Toma de Constantes Vitales",
+      "score": 0.5114826241946991,
+      "score_treshold": 0.4,
+      "pass": 1
+    },
+    "Enter the ED": {
+      "ai_column": "Entrada a Urgencias",
+      "score": 0.4432761665908386,
+      "score_treshold": 0.4,
+      "pass": 1
+    },
+    "Triage in the ED": {
+      "ai_column": "Triaje en Urgencias",
+      "score": 0.5368321391150813,
+      "score_treshold": 0.4,
+      "pass": 1
+    },
+    "Medicine reconciliation": {
+      "ai_column": "Conciliación de Medicamentos",
+      "score": 0.599745369692596,
+      "score_treshold": 0.4,
+      "pass": 1
+    },
+    "Medicine dispensations": {
+      "ai_column": "Dispensación de Medicamentos",
+      "score": 0.6703329443312795,
+      "score_treshold": 0.4,
+      "pass": 1
+    },
+    "Discharge from the ED": {
+      "ai_column": "Alta de Urgencias",
+      "score": 0.36519263907003435,
+      "score_treshold": 0.4,
+      "pass": 0
+    }
+  },
+  "columns_list_benchmark": [
+    "stay_id",
+    "subject_id",
+    "hadm_id",
+    "timestamps",
+    "activity",
+    "gender",
+    "race",
+    "arrival_transport",
+    "disposition",
+    "seq_num",
+    "icd_code",
+    "icd_version",
+    "icd_title",
+    "temperature",
+    "heartrate",
+    "resprate",
+    "o2sat",
+    "sbp",
+    "dbp",
+    "pain",
+    "acuity",
+    "chiefcomplaint",
+    "rhythm",
+    "name",
+    "gsn",
+    "ndc",
+    "etc_rn",
+    "etccode",
+    "etcdescription",
+    "med_rn",
+    "gsn_rn"
+  ],
+  "columns_list_ai_tool": [
+    "subject_id",
+    "stay_id",
+    "hadm_id",
+    "timestamps",
+    "activity",
+    "gender",
+    "arrival_transport",
+    "disposition",
+    "seq_num",
+    "icd_code",
+    "icd_version",
+    "icd_title",
+    "acuity",
+    "chiefcomplaint",
+    "triage_temperature",
+    "triage_heartrate",
+    "triage_resprate",
+    "triage_o2sat",
+    "triage_sbp",
+    "triage_dbp",
+    "triage_pain",
+    "vitalsign_temperature",
+    "vitalsign_heartrate",
+    "vitalsign_resprate",
+    "vitalsign_o2sat",
+    "vitalsign_sbp",
+    "vitalsign_dbp",
+    "vitalsign_rhythm",
+    "vitalsign_pain",
+    "recon_name",
+    "recon_gsn",
+    "recon_ndc",
+    "recon_etc_rn",
+    "recon_etccode",
+    "recon_etcdescription",
+    "disp_med_rn",
+    "disp_name",
+    "disp_gsn_rn",
+    "disp_gsn"
+  ],
+  "events_list_benchmark": [
+    "Vital sign check",
+    "Enter the ED",
+    "Triage in the ED",
+    "Medicine reconciliation",
+    "Medicine dispensations",
+    "Discharge from the ED"
+  ],
+  "events_list_ai_tool": [
+    "Entrada a Urgencias",
+    "Triaje en Urgencias",
+    "Conciliación de Medicamentos",
+    "Toma de Constantes Vitales",
+    "Alta de Urgencias",
+    "Dispensación de Medicamentos"
+  ]
+}

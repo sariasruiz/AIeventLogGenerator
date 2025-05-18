@@ -41,6 +41,19 @@ def app():
     # Configurar la página
     page_config()
 
+    # Título
+    title()
+
+    # Obtener y mostrar el número de vectores
+    try:
+        collection_info = st.session_state.agent.retriever.client.get_collection(st.session_state.agent.retriever.collection)
+        num_vectors = collection_info.points_count
+        qdrant_status = True
+    except Exception as e:
+        #st.badge("no disponible", color="orange")
+        qdrant_status = False
+        st.error(f"Error en Qdrant, revisa que Qdrant esté activado o que la colección en .env esté creada.")
+
     # Sidebar con metadatos del chatbot
     with st.sidebar:
         # Botón de cerrar sesión
@@ -76,12 +89,16 @@ def app():
             #st.badge(f"{st.session_state.agent.retriever.num_vectors}", color="green")
 
             # Obtener y mostrar el número de vectores
-            try:
-                collection_info = st.session_state.agent.retriever.client.get_collection(st.session_state.agent.retriever.collection)
-                num_vectors = collection_info.points_count
+            #try:
+            #    collection_info = st.session_state.agent.retriever.client.get_collection(st.session_state.agent.retriever.collection)
+            #    num_vectors = collection_info.points_count
+            if qdrant_status:
                 st.badge(f"{num_vectors:,}", color="orange")
-            except Exception as e:
+            else:
                 st.badge("no disponible", color="orange")
+            #except Exception as e:
+            #    st.badge("no disponible", color="orange")
+            #    st.error(f"Error en Qdrant, revisa que Qdrant esté funcionando o que la colección en .env sea correcta")
 
         # LLM Info del generador de SQL
         # En .env
@@ -98,38 +115,37 @@ def app():
         
         footer()
 
-    # Título
-    title()
-
     # Mostrar historial de chat
     for message in st.session_state.messages:
         with st.chat_message(message["role"]):
             st.markdown(message["content"])
 
-    # Input del usuario
-    if prompt := st.chat_input("Empieza a interactuar con la IA para generar tu log de eventos"):
-        # Añadir mensaje del usuario
-        st.session_state.messages.append({"role": "user", "content": prompt})
-        with st.chat_message("user"):
-            st.markdown(prompt)
+    # Si Qdrant está funcionando, se muestra la pantalla de chat
+    if qdrant_status:
+        # Input del usuario
+        if prompt := st.chat_input("Empieza a interactuar con la IA para generar tu log de eventos"):
+            # Añadir mensaje del usuario
+            st.session_state.messages.append({"role": "user", "content": prompt})
+            with st.chat_message("user"):
+                st.markdown(prompt)
 
-        # Obtener respuesta
-        with st.chat_message("assistant"):
-            with st.spinner("Pensando..."):
-                # Obtenemos respuesta pasando el prompt
-                response = st.session_state.agent.chat(prompt)
+            # Obtener respuesta
+            with st.chat_message("assistant"):
+                with st.spinner("Pensando..."):
+                    # Obtenemos respuesta pasando el prompt
+                    response = st.session_state.agent.chat(prompt)
 
-                # Mostrar respuesta en interfaz
-                st.markdown(response)
+                    # Mostrar respuesta en interfaz
+                    st.markdown(response)
 
-                # Añadir respuesta al historial
-                st.session_state.messages.append({"role": "assistant", "content": response})
+                    # Añadir respuesta al historial
+                    st.session_state.messages.append({"role": "assistant", "content": response})
 
-    # Botón para limpiar la conversación
-    if st.button("Limpiar conversación"):
-        st.session_state.messages = []
-        st.session_state.agent.clear()
-        st.rerun()
+        # Botón para limpiar la conversación
+        if st.button("Limpiar conversación"):
+            st.session_state.messages = []
+            st.session_state.agent.clear()
+            st.rerun()
 
 if __name__ == "__main__":
     app()
