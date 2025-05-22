@@ -320,7 +320,7 @@ agent = Agent()
 # Enviar "hola" al agente y capturar una respuesta
 respuesta = agent.chat("hola")
 
-# Elimine el historial
+# Elimina el historial
 agent = agent.clear()
 # O si lo prefieres
 # Vuelve a generar una nueva instacia del AI Agent
@@ -328,7 +328,7 @@ agent = Agent()
 ```
 **3. Monitorización métricas de rendimiento general:**
 
-Hayas interactuado mediante interfaz, consola o notebook, si la variable de entorno DATA_EXPERIMENT está configurada, se generarán en el directorio **output/** los archivos "**TestToolAgent_<uuid>.json**". Se generaran tantos como Scripts SQL genere la herramienta "**search_and_generate_sql**".
+Hayas interactuado mediante interfaz, consola o notebook, si la variable de entorno DATA_EXPERIMENT está configurada, se generarán en el directorio **output/** los archivos "**TestToolAgent_(uuid).json**". Se generaran tantos como Scripts SQL genere la herramienta "**search_and_generate_sql**".
 
 Estos archivos, monitorizan principalmente el rendimiento en tiempo de ejecución, tokens consumidos y coste en USD totales y por cada uno de los componentes de la herramienta.
 
@@ -336,22 +336,22 @@ Estos archivos, monitorizan principalmente el rendimiento en tiempo de ejecució
 
 Si te interesa monitorizar la **calidad de la reconstrucción de un dataset de control**, es necesario que:
 
- - Existan ficheros **'TestToolAgent_<uuid>.json'** en directorio **'output/'** mediante invocaciones previas al AI Agent.  
+ - Existan ficheros **'TestToolAgent_(uuid).json'** en directorio **'output/'** mediante invocaciones previas al AI Agent.  
  - El entorno virtual del proyecto esté activado, con la versión de Python y las librerías necesarias instaladas. (Leer el README.md)  
  - El fichero del dataset de control, **en nuestro caso 'mimicel.csv'**, se encuentre en **'results/csv/benchmark'**  
  - Si quieres personalizar alguna ruta, puedes hacerlo en la función main():  
-     log_json_path:    ruta al archivo o los archivos json que se generó al trackear la AI Tool,
-                       se ubican en el proyecto en la carpeta output (output/TestToolAgent_<uuid>.json)
-     df_benchmark:     pandas dataframe con el benchmark.
-     ai_csv_dir:       ruta a la carpeta donde se guardan los csv generados por la AI Tool.
-     results_json_dir: ruta a la carpeta donde se guardan los json con los resultados de la evaluación.
+     log_json_path:    ruta al archivo o los archivos json que se generó al trackear la AI Tool,  
+                       se ubican en el proyecto en el directorio **output/ (output/TestToolAgent_(uuid).json)**  
+     df_benchmark:     pandas dataframe con el benchmark.  
+     ai_csv_dir:       ruta a la carpeta donde se guardan los csv generados por la AI Tool.  
+     results_json_dir: ruta a la carpeta donde se guardan los json con los resultados de la evaluación.  
 
 **Por consola, desde la raíz del proyecto, invoca directamente al script:**
 
 ```bash
 python -m results.result_generator
 ```
-Si se han generado ficheros de resultados, se guardarán en **'results/json/Result_<TestToolAgent_(uuid)>.json'**
+Si se han generado ficheros de resultados, se guardarán en **'results/json/Result_(TestToolAgent_(uuid)).json'**
 
 Estos archivos monitorizan principalmente la calidad de la reconstrucción del dataset de control.
 (Ver lógica y métricas en: **'results/result_generator.py'** y **'results/evaluator.py'**)
