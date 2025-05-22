@@ -13,13 +13,13 @@
 
 ## Acceso a la Demo
 
-Si deseas acceder a la demo real del chatbot, por favor envía un correo electrónico al autor con el asunto "Acceso al chatbot". Te proporcionaremos las credenciales necesarias para acceder a la versión en producción.
+Si deseas acceder a la demo real del chat, por favor envía un correo electrónico al autor con el asunto "Acceso al Chat AI Event Log Generetor". Te proporcionaremos las credenciales necesarias para acceder a la versión en producción.
 
 Es indispensable enviar el correo de solicitud desde una **dirección de email válida del dominio uoc.edu**.
 
 ## Descripción
 
-Este proyecto implementa un chatbot para interactuar con un AI Agent que tiene como misión principal generar scripts SQL para construir logs de eventos compatibles con el Process Mining.
+Este proyecto implementa un chat para interactuar con un AI Agent que tiene como misión principal generar scripts SQL para construir logs de eventos compatibles con el Process Mining.
 
 Para lograrlo, el AI Agent realiza 5 preguntas metodológicas en lenguaje natural y utiliza técnicas RAG (Retrieval Augmented Generation) para recuperar información relevante de la base de datos y generar los scripts SQL mediante dos LLM razonadores.
 
@@ -29,13 +29,13 @@ Aplicación de técnicas novedosas a la disciplina del Process Mining en el ámb
 En la revisión de literatura se observa una baja adopción del Process Mining en el sector hospitalario, causado principalmente por **la complejidad en la elaboración de logs de eventos.** 
 
 - La información en los sistemas de información hospitalaria (HIS), suelen estar repartidas por decenas de tablas, dificultando la obtención de información de extremo a extremo.
-- La construcción de scripts SQL que permiten la extracción, continua siendo un proceso tedioso y pesado.
+- La construcción de scripts SQL que permiten la extracción, continúa siendo un proceso tedioso y pesado.
 
 Se intenta explorar en un entorno controlado si la Inteligencia Artificial Generativa, mediante técnicas de Generación Aumentada por Recuperación pueden ayudar en la construcción de estos logs de eventos, **conectando la IA al conocimiento estructural de una base de datos hospitalaria**. 
 
 **Al aislar su aplicación a nivel estructural de una base de datos, se garantiza en todo momento la privacidad de los datos del paciente**.
 
-Como elemento de control, y validar la exploración, se procede a intentar reproducir el log de eventos del *paper*:
+Como elemento de control y validar la exploración, se intenta reproducir el log de eventos del *estudio de referencia*:
 [MIMICEL: MIMIC-IV Event Log for Emergency Department](https://physionet.org/content/mimicel-ed/2.1.0/)
 
 MIMICEL, construye un log de eventos del módulo de urgencias a partir del conjunto de datos MIMIC-IV.
@@ -48,11 +48,11 @@ MIMIC-IV, se compone principalmente de 37 tablas en diferentes módulos, con dat
 - HOSP: Módulo Hospitalización.
 - ICU: Módulo de Curas Intensivas.
 
-Para esta investigación se explora la viabilidad de la idea únicamente para el departamente `ED` de Urgencias.
+Para esta investigación se explora la viabilidad de la idea únicamente para el departamento `ED` de Urgencias.
 
 ## Limitaciones de aplicación de la IA generativa en el conjunto de Datos MIMIC-IV
 
-**[AVISO IMPORTANTE]** Los proveedores del conjunto de datos prohiben expresamente aplicar IA Generativa directamente sobre los datos del conjunto de datos usando API's de proveedores externos como OpenAI, para garantizar la privacidad del paciente y el cumplimento de las normas HIPAA.
+**[AVISO IMPORTANTE]** Los proveedores del conjunto de datos prohíben expresamente aplicar IA Generativa directamente sobre los datos del conjunto de datos usando API's de proveedores externos como OpenAI, para garantizar la privacidad del paciente y el cumplimento de las normas HIPAA.
 
 Por ese motivo, **para garantizar el cumplimiento de las políticas en materia de datos personales y privacidad del paciente**, exclusivamente se aplica IA Generativa, sobre los datos de estructura de la base de datos. Para el caso que nos aplica, datos públicos y accesibles de la propia documentación del proyecto [Doc MIMIC-IV](https://mimic.mit.edu/docs/):
 
@@ -71,7 +71,7 @@ La estructura del proyecto consta de 8 grandes módulos:
 
 - **agent**:     Agente AI en langchain.
 - **ui**:        Interfaz de Usuario en Streamlit.
-- **knowledge**: Conocimiento de estructura de la base de dados (MIMIC-IV)
+- **knowledge**: Conocimiento de estructura de la base de datos (MIMIC-IV)
 - **output**:    Carpeta de salida para la monitorización de la Tool y de la carga de conocimiento en Qdrant.
 - **scripts:**   Scripts de utilidad para el proyecto.
 - **results:**   Lógica de evaluación de resultados y resultados obtenidos en formato 'json'.
@@ -98,7 +98,7 @@ app/
 |
 |   (Interfaz Usuario Streamlit)
 |-- ui/
-|   |-- chatbot.py                    -> Página principal de la interfaz con la lógica del chatbot.
+|   |-- chat.py                       -> Página principal de la interfaz con la lógica del chat y llamada al AI Agent.
 |   |-- utils/                        -> Contiene funciones auxiliares para la interfaz
 |   |   |-- style.py                      -> Módulos de interfaz reutilizables.
 |   |   |-- logs_sql.py                   -> Funciones para manejar los logs de SQL.
@@ -137,7 +137,7 @@ app/
 |
 |   (Scripts auxiliares)
 |-- scripts/
-│   |-- load_schema.py                -> Script para la carga de información `<prefijo módulo>_schema.json`
+│   |-- load_schema.py                -> Script para la carga de información `<prefijo_del_módulo>_schema.json`
 |                                        en base de datos vectorial Qdrant.
 │ 
 |-- results/:                          -> Contiene scripts, csv y json referente a los resultados del experimento
@@ -167,7 +167,7 @@ app/
 
 ## Configuración del Entorno de Desarrollo
 
-### 1. Creación del Entorno Virtual
+### 1. Creación del Entorno Virtual y Archivo Variables de Entorno ".env"
 
 Es necesario crear un entorno virtual dentro del directorio raíz del proyecto:
 
@@ -176,12 +176,15 @@ Es necesario crear un entorno virtual dentro del directorio raíz del proyecto:
 cd /ruta/al/proyecto
 ```
 
-2. Crea el entorno virtual:
+2. Crea un archivo ".env" a partir de ".env.sample"
+
+
+3. Crea el entorno virtual:
 ```bash
 python -m venv venv
 ```
 
-3. Activa el entorno virtual:
+4. Activa el entorno virtual:
 
 En Linux:
 ```bash
@@ -193,12 +196,12 @@ En Windows:
 .\venv\Scripts\activate
 ```
 
-4. Instala las dependencias:
+5. Instala las dependencias:
 ```bash
 pip install -r requirements.txt
 ```
 
-5. Para desactivar el entorno virtual cuando hayas terminado:
+6. Para desactivar el entorno virtual cuando hayas terminado:
 ```bash
 deactivate
 ```
@@ -207,9 +210,9 @@ Nota: Asegúrate de que el directorio `venv` esté incluido en tu `.gitignore` p
 
 ### 2. Instalación de Dependencias
 
-Para la ejecución de este proyecto, versión de Python:
+Para la ejecución de este proyecto, **es necesaria una versión de Python:**
 
-- Python 3.12.3 o superior
+- **Python 3.12.3 o superior**
 
 El archivo `requirements.txt` incluye las siguientes librerías con sus versiones específicas:
 
@@ -265,29 +268,93 @@ Para cargar el esquema `ed_schema.json` ubicado en `knowledge` es necesario:
 1. **Activa el entorno virtual desde la raíz del proyecto** (si no está activado):
 
 ```bash
-source venv/bin/activate  # En Linux/
+source venv/bin/activate  # En Linux
 .\venv\Scripts\activate  # En Windows
 
 python -m scripts.load_schema
 ```
 
-### 5. Ejecución de la Aplicación
+### 5. Ejecución de la Aplicación Chat AI Evento Log Generator (con interfaz de usuario)
 
 1. **Activa el entorno virtual desde la raíz del proyecto** (si no está activado):
 
 ```bash
-source venv/bin/activate  # En Linux/
+source venv/bin/activate  # En Linux
 .\venv\Scripts\activate  # En Windows
 ```
 
 2. **Inicia la aplicación Streamlit**:
 
 ```bash
-streamlit run ui/chatbot.py # En Linux
-streamlit run ui\chatbot.py # En Windows
+streamlit run ui/chat.py # En Linux
+streamlit run ui\chat.py # En Windows
 ```
 
 3. **Accede a la aplicación** a través de tu navegador web en la URL que Streamlit proporciona (por defecto http://localhost:8501).
+
+### 6. ¿Te interesa monitorizar los resultados de la herramienta de 'search_and_generate_sql' del AI Agent?
+
+1. **Configura la variable de entorno a "DATA_EXPERIMENT" A "YES"**:
+
+```python
+# En archivo .env
+
+DATA_EXPERIMENT = YES
+```
+
+2. **Interactúa con el agente:**
+
+- Mediante la interfaz de usuario (Streamlit) usa el módulo de chat.
+- Mediante Notebook.
+
+**Mediante Notebook:**
+```python
+#¡Ojo! Dependiendo desde donde se ejecute el Notebook, es posible
+# que sea necesario ajustar la ruta principal del proyecto con
+# la librería 'Path'
+from agent.agent import Agent
+
+# Creación instancia del AI Agent
+agent = Agent()
+
+# Enviar "hola" al agente y capturar una respuesta
+respuesta = agent.chat("hola")
+
+# Elimine el historial
+agent = agent.clear()
+# O si lo prefieres
+# Vuelve a generar una nueva instacia del AI Agent
+agent = Agent()
+```
+**3. Monitorización métricas de rendimiento general:**
+
+Hayas interactuado mediante interfaz, consola o notebook, si la variable de entorno DATA_EXPERIMENT está configurada, se generarán en el directorio **output/** los archivos "**TestToolAgent_<uuid>.json**". Se generaran tantos como Scripts SQL genere la herramienta "**search_and_generate_sql**".
+
+Estos archivos, monitorizan principalmente el rendimiento en tiempo de ejecución, tokens consumidos y coste en USD totales y por cada uno de los componentes de la herramienta.
+
+**4. Monitorización métricas de calidad reconstrucción log de eventos de control:**
+
+Si te interesa monitorizar la **calidad de la reconstrucción de un dataset de control**, es necesario que:
+
+ - Existan ficheros **'TestToolAgent_<uuid>.json'** en directorio **'output/'** mediante invocaciones previas al AI Agent.  
+ - El entorno virtual del proyecto esté activado, con la versión de Python y las librerías necesarias instaladas. (Leer el README.md)  
+ - El fichero del dataset de control, **en nuestro caso 'mimicel.csv'**, se encuentre en **'results/csv/benchmark'**  
+ - Si quieres personalizar alguna ruta, puedes hacerlo en la función main():  
+     log_json_path:    ruta al archivo o los archivos json que se generó al trackear la AI Tool,
+                       se ubican en el proyecto en la carpeta output (output/TestToolAgent_<uuid>.json)
+     df_benchmark:     pandas dataframe con el benchmark.
+     ai_csv_dir:       ruta a la carpeta donde se guardan los csv generados por la AI Tool.
+     results_json_dir: ruta a la carpeta donde se guardan los json con los resultados de la evaluación.
+
+**Por consola, desde la raíz del proyecto, invoca directamente al script:**
+
+```bash
+python -m results.result_generator
+```
+Si se han generado ficheros de resultados, se guardarán en **'results/json/Result_<TestToolAgent_(uuid)>.json'**
+
+Estos archivos monitorizan principalmente la calidad de la reconstrucción del dataset de control.
+(Ver lógica y métricas en: **'results/result_generator.py'** y **'results/evaluator.py'**)
 
 ## Licencia
 

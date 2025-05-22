@@ -65,10 +65,10 @@ def app():
         }
 
     # Crear tabs manualmente
-    tab0, tab1, tab2, tab3 = st.tabs(["modelo relacional", "module_ed", "module_hosp", "module_icu"])
+    tab0a, tab0b, tab1, tab2, tab3 = st.tabs(["modelo relacional", "prompt experimento","module_ed", "module_hosp", "module_icu"])
     
     # Modelo relacional de MIMIC-IV
-    with tab0:
+    with tab0a:
         # Modelo relacional de MIMIC-IV
         st.markdown("## Modelo relacional de MIMIC-IV")
         base_path = Path(__file__).parent.parent
@@ -83,10 +83,64 @@ def app():
         st.image(base_path / "static/images/mimic_iv_model_ed.svg", width=1000)
         st.markdown("*Figura 2. Modelo relacional de MIMIC-IV: Módulo ED. 2025. Fuente propia.*")
 
+    # Prompt experimento
+    with tab0b:
+        st.markdown("## Prompt utilizado en el experimento.")
+
+        st.markdown("""
+        Si desea utilizar el prompt que se testeó en el experimento, **siga cuidadosamente las siguientes instrucciones:**
+                 
+        - Inicie una conversación con el AI Agent.
+        - Cuando el asistente le pregunte si desea responder a las preguntas de una en una o todas a la vez, **responda todas las preguntas a la vez.**
+        - A continuación copie y pegue el **prompt** proporcionado a continuación.
+
+        **Nota:** El prompt se diseñó para intentar reconstruir el log de eventos [MIMICEL](https://physionet.org/content/mimicel-ed/2.1.0/).  
+        """)
+
+        st.markdown("""
+        ```text
+        Objetivo: Generar un log de eventos, que involucre todo el módulo de urgencias, para trazar los eventos generados en el servicio de extremo a extremo.
+
+        Grupo de pacientes: Toda la población en general.
+
+        Identificadores únicos: Quiero poder captura el id del paciente, la id de estancia en urgencias, y en el caso de que dispongan, la id de estancia hospitalaria, y la id de intervención quirúrgica.
+
+        Eventos a capturar:
+        - Llegada del paciente de urgencias (con el nombre de 'Entrada a Urgencias (ED)').
+        - Alta del paciente (con el nombre de 'Salida de Urgencias (ED)').
+        - Triaje del paciente (con el nombre 'Triaje en Urgencias (ED)').
+        - Toma de constantes vitales mientras está en urgencias (con el nombre de 'Toma de Constantes Vitales').
+        - La entrevista de conciliación de medicamento (con el nombre 'Conciliación de Medicamentos').
+        - La dispensación de medicamentos (bajo el nombre de 'Dispensación de Medicamentos').
+        - Las pruebas de laboratorio (bajo el nombre de 'Pruebas de Laboratorio')
+        - Y por último el evento de pruebas radiológicas. (bajo el nombre de 'Pruebas Radiológicas')
+
+        Como atributos en los siguientes eventos:
+        - De la llegada del paciente: El medio de llegada del paciente, el género, la edad y si hay más campos disponibles captúralos.
+        - Del alta del paciente: Me gustaría registrar el motivo de alta, toda la secuencia de códigos de diagnósticos, descripciones y la versiones de codificación utilizada.
+        - Del triaje: Me gustaría obtener el nivel de triaje, todas las tomas de constantes vitales realizadas en triaje, y campos de texto libre si existen.
+        - De la toma de constantes vitales, me gustaría al igual que en Triaje, todas las tomas de constantes vitales.
+        - Durante la conciliación de medicamentos, no tengo claro que campos podemos obtener, incorpora todos los campos posibles como atributo.
+        - Durante la dispensación de medicamentos, me ocurre lo mismo, no tengo claro que podemos obtener, introduce todos los campos posibles como atributo.
+        - De las pruebas de laboratorio, me gustaría capturar el nombre de tipo de prueba.
+        - Del evento de pruebas radiológicas, me gustaría capturar el nombre de tipo de prueba.
+
+        Validación de datos:
+        - Las estancias deberían ser: 'llegada a Urgencias (ED)' < 'Alta de Urgencias (ED)'
+        - Además se debe cumplir que: 
+        1. 'Toma de Constantes Vitales' <= 'Alta de Urgencias (ED)'
+        2. 'Dispensación de Medicamentos' <= 'Alta de Urgencias (ED)'
+        3. 'Conciliación de Medicamentos' <= 'Alta de Urgencias (ED)'
+
+        Orden de datos:
+        Quiero ordenar el resultado por orden de id paciente ascendente y por marca de tiempo del evento ascendente.
+        ```
+        """)
+
     # Módulo ED
     with tab1:
         # Mostrar descripción del módulo ED
-        ed_module = modules_data["modules"][0]
+        ed_module = modules_data["modules"][1]
         if ed_module:
             st.markdown(ed_module["description"]["spanish"])
             st.write("")
@@ -116,7 +170,7 @@ def app():
     # Módulo HOSP
     with tab2:
         # Mostrar descripción del módulo HOSP
-        hosp_module = modules_data["modules"][1]
+        hosp_module = modules_data["modules"][0]
         if hosp_module:
             st.warning("Documentación del módulo HOSP no se ha cargado para este experimento.")
             st.write(hosp_module["description"]["spanish"])

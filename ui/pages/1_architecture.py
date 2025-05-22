@@ -77,17 +77,15 @@ def app():
     # Flujo de datos
     st.markdown(f"""
     ### Pipeline Principal
-
-    - El usuario inicia sesión a través de Cognito.
-    - El usuario verificado interactúa con el chat. **(Punto 1 del diagrama)**
-    - El agente LLM realiza 5 preguntas metodológicas para contextualizar el log de eventos. **(Punto 1 del diagrama)**
-    - El agente LLM llama a la herramienta `search_and_generate_sql`. **(Punto 2 del diagrama)**
-    - Se inicia la técnica RAG: Se construye un vector de embeddings para realizar la búsqueda semántica en Qdrant y recuperar el contenido relevante de la base de datos vectorial. **(Punto 3, 4, 5, 6, 7 y 8 del diagrama.)**
-    - El contenido recuperado se pasa a un modelo LLM razonador junto a la necesidad del usuario y a unas reglas de formato del Script. **(Puntos 9, 10 y 11 del diagrama)**
-    - El modelo LLM Razonador devuelve una primera versión del Script SQL. **(Punto 12 del diagrama)**.
-    - Se vuelve a invocar un segundo modelo LLM Razonador, que recibe como prompt lo que recibió el primer LLM Razonador, más el script SQL generado y unas instrucciones de búsqueda de errores, inconsistencias y puntos de mejora.  **(Puntos 13 y 14 del diagrama)**
-    - Se Genera el script SQL mejorado y se devuelve de manera directa al usuario. **(Puntos 15, 16, 17 y 18 del diagrama).**
-    - Finaliza la acción con el agente.
+                
+    - **Usuario inicia interacción** a través de la interfaz de usuario.
+    - **(Puntos del diagrama: 1).** El AI Agent inicia contextualización del problema, realizando 5 preguntas metodológicas para la construcción de un log de eventos y 2 técnicas en concepto de validación y visualización de datos.
+    - **(Puntos del diagrama: 2 y 3)**. Finalizada la contextualización del problema, el AI Agent resumen informe de necesidad del usuario y llama a la herramienta (“AI Tool”) “search_and_generate_sql”.
+    - **(Puntos del diagrama: 4, 5, 6, 7 y 8)**. La herramienta inicia la técnica RAG, generando un vector de representación semántica “embedding” del informe de necesidad del usuario. Realiza una búsqueda semántica del conocimiento sobre la base de datos relacional almacenada en Qdrant. Si la información recuperada supera score de 0.5, se incorpora al flujo de trabajo como contexto relevante recuperado.
+    - **(Puntos del diagrama: 9)**. Con el contexto relevante recuperado se inicia el bloque de generación de script SQL.
+    - **(Puntos del diagrama: 10, 11 y 12)**. Se crea un prompt con el informe de necesidad del usuario, el contexto relevante recuperado y unas instrucciones para la generación de un log de eventos. Se invoca una instancia del LLM razonador “o4-mini” para que genere la primera versión del Script SQL.
+    - **(Puntos del diagrama: 13, 14, 15 y 16)**. Se crea un segundo prompt, con todo el contenido del primero, añadiendo el script SQL generado e instrucciones de revisión de sintaxis, búsqueda de errores y mejoras de legibilidad. Se invoca una segunda instancia del LLM razonador “o4-mini” para que genere la versión final del Script SQL.
+    - **(Puntos del diagrama: 17 y 18)**. El Script SQL mejorado se envía directamente al usuario concluyendo el flujo de trabajo del AI Agent conversacional.
     
     ### Pipeline Secundario
 

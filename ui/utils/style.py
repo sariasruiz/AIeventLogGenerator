@@ -23,9 +23,9 @@ def title():
     Configura el título de la página.
     """
 
-    st.title("🤖 Chatbot AI Event Log Generator")
+    st.title("🤖 Chat AI Event Log Generator")
     st.markdown("""
-    Chatbot impulsado por un Agente de IA mediante LLM y técnicas RAG (Generación Aumentada por Recuperación).\n
+    Chat impulsado por un Agente de IA mediante LLM y técnicas RAG (Generación Aumentada por Recuperación).\n
     Genera scripts SQL aptos para la construcción de logs de eventos a partir del conocimiento 
     obtenido de la base de datos de su centro hospitalario.\n\n
     """)

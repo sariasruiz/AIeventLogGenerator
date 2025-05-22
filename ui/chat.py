@@ -1,5 +1,5 @@
 ###############################################
-# chatbot.py
+# chat.py
 ###############################################
 
 import sys
@@ -60,7 +60,7 @@ def app():
         if AUTH_REQUIRED and st.button("Cerrar sesión"):
             logout()
 
-        st.subheader("Metadatos del Chatbot")
+        st.header("Metadatos Chat AI Event Log Generator")
         
         # LLM Info
         st.subheader("AI Agent")
@@ -86,19 +86,11 @@ def app():
             st.badge(f"{st.session_state.agent.retriever.embedding_provider}", color="orange")
             st.badge(f"{st.session_state.agent.retriever.embedding_model}", color="orange")
             st.badge(f"{st.session_state.agent.retriever.collection}", color="orange")
-            #st.badge(f"{st.session_state.agent.retriever.num_vectors}", color="green")
-
-            # Obtener y mostrar el número de vectores
-            #try:
-            #    collection_info = st.session_state.agent.retriever.client.get_collection(st.session_state.agent.retriever.collection)
-            #    num_vectors = collection_info.points_count
+            # Obtener y mostrar el número de vectores si se pudo conectar a Qdrant
             if qdrant_status:
                 st.badge(f"{num_vectors:,}", color="orange")
             else:
                 st.badge("no disponible", color="orange")
-            #except Exception as e:
-            #    st.badge("no disponible", color="orange")
-            #    st.error(f"Error en Qdrant, revisa que Qdrant esté funcionando o que la colección en .env sea correcta")
 
         # LLM Info del generador de SQL
         # En .env
@@ -122,6 +114,12 @@ def app():
 
     # Si Qdrant está funcionando, se muestra la pantalla de chat
     if qdrant_status:
+        st.warning(
+            "¡Atención! La generación del script SQL puede demorar más de 2 minutos. Es una tarea compleja, por favor tenga paciencia.",
+            icon=":material/warning:"
+        )
+
+
         # Input del usuario
         if prompt := st.chat_input("Empieza a interactuar con la IA para generar tu log de eventos"):
             # Añadir mensaje del usuario

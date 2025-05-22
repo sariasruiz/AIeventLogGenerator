@@ -59,8 +59,8 @@ class EvaluationSQLScripts:
         y a la vez dificultaba la medición por las variaciones semánticas que 
         producía nuestra AI Tool.
 
-        El LLM genera strings sinónimos al benchmak, y par amejorar la medición
-        se optó par la similitud semántica entre los strings de ambas listas.
+        El LLM genera strings sinónimos al benchmak, y para mejorar la medición
+        se optó por la similitud semántica entre los strings de ambas listas.
 
         Esto se aplica a la lista de eventos únicos generados y a la lista de nombres de columnas.
 
@@ -94,7 +94,6 @@ class EvaluationSQLScripts:
         - Una lista de eventos/columnas del benchmark.
         - Una lista de eventos/columnas de la AI Tool.
         - Un score_pass para considerar un emparejamiento como TP.
-        - Un diccionario para trackear los emparejamientos encontrados.
         Retornamos una tupla con todas las métricas calculadas.
         """
 

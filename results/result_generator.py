@@ -6,15 +6,12 @@
 # Notas de ejecución si te interesa replicar el experimento:
 #
 # Es necesario que: 
-# - se haya activado DATA_EXPERIMENT = YES
-# - se hayan generado los ficheros TestToolAgent_<uuid>.json en 'output' de tu interés
-#   mediante el uso de la AI Tool. (Mira la clase Agent() en agent/agent.py)
-# 
-# Cuando hayas finalizado las ejecuciones, lanza el script preferiblemente desde un notebook:
-# - entorno virtual del proyecto activado con las librerías necesarias instaladas.
-# -importa la clase desde results.result_generator import EvaluationSQLScripts
-#
-# Instancia la clase con los siguientes parámetros:
+# - La variable de entorno esté activada: DATA_EXPERIMENT = YES
+# - Sehayan generado los ficheros TestToolAgent_<uuid>.json en 'output' mediante las invocaciones al AI Agent.
+#   (Mira la clase Agent() en agent/agent.py)
+# - El entorno virtual del proyecto esté activado, con la versión de Python y las librerías necesarias instaladas. (Leer el README.md)
+# - El fichero del dataset de control 'mimicel.csv' se encuentre en 'results/csv/benchmark'
+# - Si quieres personalizar alguna ruta, puedes hacerlo en la función main():
 #     log_json_path:    ruta al archivo o los archivos json que se generó al trackear la AI Tool,
 #                       se ubican en el proyecto en la carpeta output (output/TestToolAgent_<uuid>.json)
 #     df_benchmark:     pandas dataframe con el benchmark.
@@ -24,18 +21,7 @@
 # Si no se ha generado el fichero de control, se lanzará un error.
 # Si se ha generado el fichero de resultados, se guardará en 'results/json/Result_<TestToolAgent_(uuid original)>.json'
 #
-# Importa la clase preferiblemente en un notebook para tener control sobre el proceso:
-# ResultsSQLScripts(
-#            log_json_path=ruta_del_archivo_log_TestToolAgent_<uuid>,
-#            df_benchmark=pandas_dataframe_benchmark,
-#            ai_csv_dir="results/csv/AI_tool",
-#            results_json_dir="results/json",
-#        )
-#
-# Invoca a la función main() para ejecutar el script sobre todos los ficheros de logs de la carpeta output.
-# ¡Ojo! Edítalo primero, para asegurarte que archivo de benchmark vas a usar.
-#
-# Por consola puedes hacer:
+# Por consola, desde la raíz del proyecto, invoca directamente el script:
 # python -m results.result_generator
 #
 # Sergio Arias Ruiz
