@@ -37,7 +37,7 @@ def how_get_access():
 
     with st.expander("¿Cómo conseguir acceso al chatbot?"):
         st.write("""
-        1. Envíe un correo electrónico a sergio.arias@uoc.edu con el asunto "Acceso al chatbot".
+        1. Envíe un correo electrónico a sariasri@uoc.edu con el asunto "Acceso al chatbot".
         2. Es indispensable que el correo electrónico pertenezca al dominio uoc.edu.
         """)
 

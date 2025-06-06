@@ -114,11 +114,6 @@ def app():
 
     # Si Qdrant está funcionando, se muestra la pantalla de chat
     if qdrant_status:
-        st.warning(
-            "¡Atención! La generación del script SQL puede demorar más de 2 minutos. Es una tarea compleja, por favor tenga paciencia.",
-            icon=":material/warning:"
-        )
-
 
         # Input del usuario
         if prompt := st.chat_input("Empieza a interactuar con la IA para generar tu log de eventos"):

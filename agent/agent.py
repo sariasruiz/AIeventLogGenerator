@@ -75,9 +75,9 @@ class Agent:
     def chat(self, message: str) -> str:
         """Envía un mensaje al agente y devuelve la respuesta."""
         try:
-            #self.memory.add_message("user", message)
+            
             resp = self.executor.invoke({"input": message})["output"]
-            #self.memory.add_message("assistant", resp)
+            
             return resp
         except Exception as exc:
             logger.error(f"Fallo al procesar mensaje: {exc}")
